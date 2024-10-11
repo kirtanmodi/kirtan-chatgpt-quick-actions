@@ -411,9 +411,27 @@
       "mode": "no-view"
     },
     {
+      "name": "paraphrase",
+      "title": "Paraphrase",
+      "description": "Paraphrase the selected text",
+      "mode": "no-view"
+    },
+    {
       "name": "googleSearch",
       "title": "Google Search",
       "description": "Perform a Google search on the selected text",
+      "mode": "no-view"
+    },
+    {
+      "name": "perplexitySearch",
+      "title": "Perplexity Search",
+      "description": "Perform a Perplexity search on the selected text",
+      "mode": "no-view"
+    },
+    {
+      "name": "refine-search",
+      "title": "Refine Google Search",
+      "description": "Refine your Google search query using ChatGPT",
       "mode": "no-view"
     }
   ],
