@@ -397,6 +397,24 @@
           ]
         }
       ]
+    },
+    {
+      "name": "open_chatgpt",
+      "title": "Open in ChatGPT",
+      "description": "Select text, open ChatGPT website, and paste the text",
+      "mode": "no-view"
+    },
+    {
+      "name": "quick_response",
+      "title": "Quick Response",
+      "description": "Open ChatGPT with selected text and prompt for a quick response",
+      "mode": "no-view"
+    },
+    {
+      "name": "googleSearch",
+      "title": "Google Search",
+      "description": "Perform a Google search on the selected text",
+      "mode": "no-view"
     }
   ],
   "dependencies": {
