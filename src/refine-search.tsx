@@ -6,7 +6,7 @@ export default async function Command() {
     // Get the selected text
     const selectedText = await getSelectedText();
 
-    const prompt = `I want to search for ${selectedText}. Help me refine this Google search query by focusing on [key points or purpose, e.g., accuracy, up-to-date information, or specific sources]. Exclude [any irrelevant terms or websites], and include results from [specific sites, if any]. Provide a search query I can use to get the best results, only give me the query and nothing else`;
+    const prompt = `I want to search for ${selectedText}. Help me refine this Google search query by focusing on [key points or purpose, e.g., accuracy, up-to-date information, or specific sources]. Exclude [any irrelevant terms or websites], and include results from [specific sites, if any]. Provide a search query I can use to get the best results, only give me the query and nothing else, and also provide separately for yt`;
 
     // Copy the prompt with selected text to clipboard
     await Clipboard.copy(prompt);

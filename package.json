@@ -399,6 +399,12 @@
       ]
     },
     {
+      "name": "youtubeSearch",
+      "title": "YouTube Search",
+      "description": "Search YouTube for the selected text or clipboard content",
+      "mode": "no-view"
+    },
+    {
       "name": "open_chatgpt",
       "title": "Open in ChatGPT",
       "description": "Select text, open ChatGPT website, and paste the text",
