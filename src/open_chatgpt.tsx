@@ -6,7 +6,7 @@ export default async function Command() {
     // Get the selected text
     const selectedText = await getSelectedText();
 
-    const prefix = "Using points, explain in detail, in simple words with a real world analogy:\n\n";
+    const prefix = `Provide a clear, step-by-step explanation of the topic using simple language. Start with a brief TLDR summary, followed by detailed points. Use a relatable real-world analogy to make the concept easier to understand. Keep the explanation concise, straightforward, and focused.: \n\n`;
 
     // Copy the text with prefix to clipboard
     await Clipboard.copy(prefix + selectedText);
