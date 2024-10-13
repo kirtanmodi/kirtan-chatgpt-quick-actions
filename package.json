@@ -451,6 +451,18 @@
       "title": "Refined Google Search",
       "description": "Refine the selected text and search Google",
       "mode": "no-view"
+    },
+    {
+      "name": "codeExplainer",
+      "title": "Code Explainer",
+      "description": "Explain the selected code",
+      "mode": "no-view"
+    },
+    {
+      "name": "emailComposer",
+      "title": "Email Composer",
+      "description": "Draft an email based on the selected text",
+      "mode": "no-view"
     }
   ],
   "dependencies": {
