@@ -439,6 +439,18 @@
       "title": "Refine Google Search",
       "description": "Refine your Google search query using ChatGPT",
       "mode": "no-view"
+    },
+    {
+      "name": "refineYoutubeSearch",
+      "title": "Refined YouTube Search",
+      "description": "Refine the selected text and search YouTube",
+      "mode": "no-view"
+    },
+    {
+      "name": "refinedGoogleSearch",
+      "title": "Refined Google Search",
+      "description": "Refine the selected text and search Google",
+      "mode": "no-view"
     }
   ],
   "dependencies": {
