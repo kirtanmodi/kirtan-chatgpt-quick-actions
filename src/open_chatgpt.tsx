@@ -1,47 +1,74 @@
 import { getSelectedText, showHUD, Clipboard } from "@raycast/api";
 import { runAppleScript } from "run-applescript";
 
-export default async function Command() {
+const CHATGPT_URL = "https://chat.openai.com/";
+const LOAD_DELAY = 2000; // 2 seconds
+const PASTE_DELAY = 500; // 0.5 seconds
+
+const PREFIX = `Provide a clear, step-by-step explanation of the topic using simple language. Start with a brief TLDR summary, followed by detailed points. Use a relatable real-world analogy to make the concept easier to understand. Keep the explanation concise, straightforward, and focused.: \n\n`;
+
+async function copyTextToClipboard(text: string): Promise<void> {
   try {
-    // Get the selected text
-    const selectedText = await getSelectedText();
+    await Clipboard.copy(PREFIX + text);
+  } catch (error) {
+    throw new Error(`Failed to copy text to clipboard: ${error}`);
+  }
+}
 
-    const prefix = `Provide a clear, step-by-step explanation of the topic using simple language. Start with a brief TLDR summary, followed by detailed points. Use a relatable real-world analogy to make the concept easier to understand. Keep the explanation concise, straightforward, and focused.: \n\n`;
-
-    // Copy the text with prefix to clipboard
-    await Clipboard.copy(prefix + selectedText);
-
-    // Open ChatGPT website in Safari
+async function openChatGPTInSafari(): Promise<void> {
+  try {
     await runAppleScript(`
       tell application "Safari"
-        open location "https://chat.openai.com/"
+        open location "${CHATGPT_URL}"
         activate
       end tell
     `);
+  } catch (error) {
+    throw new Error(`Failed to open ChatGPT in Safari: ${error}`);
+  }
+}
 
-    // Wait for the page to load and the textarea to be available
+async function focusTextArea(): Promise<void> {
+  try {
     await runAppleScript(`
       tell application "Safari"
-        delay 2 -- Wait for page load
+        delay ${LOAD_DELAY / 1000}
         do JavaScript "document.querySelector('textarea').focus();" in document 1
       end tell
     `);
+  } catch (error) {
+    throw new Error(`Failed to focus on textarea: ${error}`);
+  }
+}
 
-    // Paste the copied text and send it
+async function pasteAndSendText(): Promise<void> {
+  try {
     await runAppleScript(`
       tell application "Safari"
         tell application "System Events"
-          keystroke "v" using command down -- Paste the text
-          delay 0.5
-          keystroke return -- Send the message
+          keystroke "v" using command down
+          delay ${PASTE_DELAY / 1000}
+          keystroke return
         end tell
       end tell
     `);
+  } catch (error) {
+    throw new Error(`Failed to paste and send text: ${error}`);
+  }
+}
 
-    // Show a HUD to inform the user
+export default async function Command() {
+  try {
+    const selectedText = await getSelectedText();
+
+    await copyTextToClipboard(selectedText);
+    await openChatGPTInSafari();
+    await focusTextArea();
+    await pasteAndSendText();
+
     await showHUD("ChatGPT opened in Safari. Text pasted and sent.");
   } catch (error) {
     console.error("Error:", error);
-    await showHUD("Error: Failed to open ChatGPT or paste text in Safari.");
+    await showHUD(`Error: ${error instanceof Error ? error.message : String(error)}`);
   }
 }
