@@ -35,9 +35,11 @@ export default async function Command() {
       tell application "Safari"
         open location "${googleSearchUrl}"
         activate
+        delay 1
         tell application "System Events" to keystroke "z" using {command down, option down}
         
         make new document with properties {URL:"${perplexitySearchUrl}"}
+        delay 1 -- Wait for the new window to open and load
         tell application "System Events" to keystroke "x" using {command down, option down}
       end tell
     `);
