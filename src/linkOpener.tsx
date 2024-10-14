@@ -131,7 +131,7 @@ export default function OpenLink() {
       message: `Are you sure you want to delete "${linkToDelete.title}"?`,
       primaryAction: {
         title: "Delete",
-        style: Action.Style.Destructive,
+        style: Toast.Style.Destructive,
       },
     };
 
