@@ -435,6 +435,12 @@
       "mode": "no-view"
     },
     {
+      "name": "gitCommandSearch",
+      "title": "Git Command Search",
+      "description": "Search git commands",
+      "mode": "view"
+    },
+    {
       "name": "refine-search",
       "title": "Refine Google Search",
       "description": "Refine your Google search query using ChatGPT",
@@ -516,6 +522,13 @@
       "type": "checkbox",
       "default": false,
       "required": false
+    },
+    {
+      "name": "gitRepoPath",
+      "type": "directory",
+      "required": false,
+      "title": "Git Repository Path",
+      "description": "Path to your main git repository"
     }
   ],
   "devDependencies": {
