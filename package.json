@@ -469,6 +469,12 @@
       "title": "Email Composer",
       "description": "Draft an email based on the selected text",
       "mode": "no-view"
+    },
+    {
+      "name": "linkOpener",
+      "title": "Link Opener",
+      "description": "Open a predefined link in Google Chrome",
+      "mode": "view"
     }
   ],
   "dependencies": {
