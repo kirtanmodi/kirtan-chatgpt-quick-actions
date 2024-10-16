@@ -475,6 +475,12 @@
       "title": "Link Opener",
       "description": "Open a predefined link in Google Chrome",
       "mode": "view"
+    },
+    {
+      "name": "screenshotAnalyzer",
+      "title": "Screenshot Analyzer",
+      "description": "Take a screenshot and analyze it with ChatGPT",
+      "mode": "view"
     }
   ],
   "dependencies": {
