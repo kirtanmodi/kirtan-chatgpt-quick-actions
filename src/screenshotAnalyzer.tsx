@@ -3,7 +3,6 @@ import { runAppleScript } from "run-applescript";
 import fs from "fs/promises";
 import path from "path";
 
-const SCREENSHOTS_FOLDER = "Raycast_Screenshots";
 const TEMP_SCREENSHOT_NAME = "temp_screenshot.png";
 
 export default async function ScreenshotAnalyzer() {
@@ -19,9 +18,18 @@ export default async function ScreenshotAnalyzer() {
   }
 }
 
+async function getDesktopPath(): Promise<string> {
+  try {
+    const desktopPath = await runAppleScript("return POSIX path of (path to desktop)");
+    return desktopPath.trim();
+  } catch (error) {
+    throw new Error(`Failed to get desktop path: ${error}`);
+  }
+}
+
 async function takeScreenshot(): Promise<string | null> {
-  const desktopPath = await runAppleScript("return POSIX path of (path to desktop)");
-  const screenshotPath = path.join(desktopPath.trim(), TEMP_SCREENSHOT_NAME);
+  const desktopPath = await getDesktopPath();
+  const screenshotPath = path.join(desktopPath, TEMP_SCREENSHOT_NAME);
 
   const script = `
     try
@@ -41,24 +49,24 @@ async function takeScreenshot(): Promise<string | null> {
 }
 
 async function analyzeScreenshot() {
-  const path = await takeScreenshot();
+  const screenshotPath = await takeScreenshot();
 
-  if (path === null) {
-    // User cancelled the screenshot
+  if (screenshotPath === null) {
     await showHUD("Screenshot cancelled by user.");
     return;
   }
 
-  await showHUD("Opening ChatGPT in Safari...");
-
-  await copyScreenshotToClipboard(path);
-  await openChatGPTInSafari();
-  await sendPromptToChatGPT();
-
-  await showHUD("Screenshot and prompt sent to ChatGPT in Safari.");
-
-  // Clean up the temporary screenshot
-  await fs.unlink(path).catch(console.error);
+  try {
+    await showHUD("Processing screenshot...");
+    await copyScreenshotToClipboard(screenshotPath);
+    await openChatGPTInSafari();
+    await sendPromptToChatGPT();
+    await showHUD("Screenshot and prompt sent to ChatGPT in Safari.");
+  } catch (error) {
+    throw new Error(`Failed to analyze screenshot: ${error}`);
+  } finally {
+    await cleanupTempScreenshot(screenshotPath);
+  }
 }
 
 async function copyScreenshotToClipboard(path: string) {
@@ -100,5 +108,13 @@ async function sendPromptToChatGPT() {
     await runAppleScript(script);
   } catch (error) {
     throw new Error(`Failed to send prompt to ChatGPT: ${error}`);
+  }
+}
+
+async function cleanupTempScreenshot(path: string) {
+  try {
+    await fs.unlink(path);
+  } catch (error) {
+    console.error(`Failed to delete temporary screenshot: ${error}`);
   }
 }
