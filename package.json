@@ -481,6 +481,12 @@
       "title": "Screenshot Analyzer",
       "description": "Take a screenshot and analyze it with ChatGPT",
       "mode": "no-view"
+    },
+    {
+      "name": "simple_explain",
+      "title": "Simple Explain",
+      "description": "Explain the selected text in a simple and concise way",
+      "mode": "no-view"
     }
   ],
   "dependencies": {
