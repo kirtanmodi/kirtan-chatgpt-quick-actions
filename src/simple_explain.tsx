@@ -5,7 +5,7 @@ const CHATGPT_URL = "https://chat.openai.com/";
 const LOAD_DELAY = 2000; // 2 seconds
 const PASTE_DELAY = 500; // 0.5 seconds
 
-const PREFIX = `give the answer in the beginning and keep it simple and concise, no fluff, no extra words, just the facts: \n\n`;
+const PREFIX = `give the answer in the beginning and the reason in the end, keep it simple and concise, no fluff, no extra words, just the facts: \n\n`;
 
 async function copyTextToClipboard(text: string): Promise<void> {
   try {
