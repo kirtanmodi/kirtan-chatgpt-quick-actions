@@ -1,18 +1,19 @@
-import { getSelectedText, Clipboard, showHUD } from "@raycast/api";
+import { getSelectedText, Clipboard, showHUD, getPreferenceValues } from "@raycast/api";
 import { runAppleScript } from "run-applescript";
 
 export default async function Command() {
+  const preferences = getPreferenceValues();
+  const PREFIX = preferences.prefix_perplexity_search || "";
+
   try {
     let selectedText;
 
     try {
-      // Try to get the selected text
       selectedText = await getSelectedText();
     } catch (error) {
       console.error("Error getting selected text:", error);
     }
 
-    // If no text is selected or getSelectedText failed, check the clipboard
     if (!selectedText) {
       const { text } = await Clipboard.read();
       if (text) {
@@ -23,13 +24,9 @@ export default async function Command() {
       }
     }
 
-    // Encode the text for use in a URL
-    const encodedText = encodeURIComponent(selectedText);
-
-    // Construct the Perplexity search URL
+    const encodedText = encodeURIComponent(PREFIX + selectedText);
     const perplexitySearchUrl = `https://www.perplexity.com/search?q=${encodedText}`;
 
-    // Open Perplexity search in Safari
     await runAppleScript(`
       tell application "Safari"
         open location "${perplexitySearchUrl}"
@@ -37,7 +34,6 @@ export default async function Command() {
       end tell
     `);
 
-    // Show a HUD to inform the user
     await showHUD("Perplexity search opened in Safari for the text.");
   } catch (error) {
     console.error("Error:", error);

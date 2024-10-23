@@ -1,14 +1,16 @@
-import { getSelectedText, showHUD, Clipboard } from "@raycast/api";
+import { getSelectedText, showHUD, Clipboard, getPreferenceValues } from "@raycast/api";
 import { runAppleScript } from "run-applescript";
 
 const CHATGPT_URL = "https://chat.openai.com/";
 const LOAD_DELAY = 2000; // 2 seconds
 const PASTE_DELAY = 500; // 0.5 seconds
 
+const preferences = getPreferenceValues();
+const PREFIX = preferences.prefix_email_composer || "Draft a professional email based on this brief: ";
+
 async function copyTextToClipboard(text: string): Promise<void> {
   try {
-    const PREFIX = `Draft a professional email based on this brief: "${text}". Include a subject line, greeting, body, and closing.`;
-    await Clipboard.copy(PREFIX);
+    await Clipboard.copy(PREFIX + text);
   } catch (error) {
     throw new Error(`Failed to copy text to clipboard: ${error}`);
   }

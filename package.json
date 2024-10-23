@@ -432,7 +432,17 @@
       "name": "perplexitySearch",
       "title": "Perplexity Search",
       "description": "Perform a Perplexity search on the selected text",
-      "mode": "no-view"
+      "mode": "no-view",
+      "preferences": [
+        {
+          "name": "prefix_perplexity_search",
+          "title": "Perplexity Search Prefix",
+          "description": "Prefix to add before the selected text for Perplexity Search",
+          "type": "textfield",
+          "default": "",
+          "required": false
+        }
+      ]
     },
     {
       "name": "gitCommandSearch",
@@ -468,7 +478,17 @@
       "name": "emailComposer",
       "title": "Email Composer",
       "description": "Draft an email based on the selected text",
-      "mode": "no-view"
+      "mode": "no-view",
+      "preferences": [
+        {
+          "name": "prefix_email_composer",
+          "title": "Email Composer Prefix",
+          "description": "Prefix to add before the selected text for Email Composer",
+          "type": "textfield",
+          "default": "Draft an email based on the selected text: \n\n",
+          "required": false
+        }
+      ]
     },
     {
       "name": "linkOpener",
@@ -486,7 +506,17 @@
       "name": "simple_explain",
       "title": "Simple Explain",
       "description": "Explain the selected text in a simple and concise way",
-      "mode": "no-view"
+      "mode": "no-view",
+      "preferences": [
+        {
+          "name": "prefix_simple_explain",
+          "title": "Simple Explain Prefix",
+          "description": "Prefix to add before the selected text for Simple Explain",
+          "type": "textfield",
+          "default": "give the answer in the beginning and the reason in the end, keep it simple and concise, no fluff, no extra words, just the facts: \n\n",
+          "required": false
+        }
+      ]
     }
   ],
   "dependencies": {
