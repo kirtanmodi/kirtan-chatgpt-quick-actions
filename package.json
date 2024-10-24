@@ -523,11 +523,19 @@
       "title": "Set Reminder",
       "description": "Set a reminder for the selected text",
       "mode": "no-view"
+    },
+    {
+      "name": "createCalendarEvent",
+      "title": "Create Calendar Event",
+      "description": "Create a calendar event",
+      "mode": "view"
     }
   ],
   "dependencies": {
     "@nem035/gpt-3-encoder": "^1.1.7",
     "@raycast/api": "^1.50.0",
+    "chrono-node": "^2.7.7",
+    "moment-timezone": "^0.5.46",
     "openai": "^4.53.2",
     "run-applescript": "^6.1.0"
   },
