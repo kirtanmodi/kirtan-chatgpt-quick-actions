@@ -517,6 +517,12 @@
           "required": false
         }
       ]
+    },
+    {
+      "name": "setReminder",
+      "title": "Set Reminder",
+      "description": "Set a reminder for the selected text",
+      "mode": "no-view"
     }
   ],
   "dependencies": {
