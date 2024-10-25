@@ -1,4 +1,4 @@
-import { showHUD, showToast, Toast } from "@raycast/api";
+import { showHUD, showToast, Toast, popToRoot, closeMainWindow } from "@raycast/api";
 import { runAppleScript } from "run-applescript";
 import fs from "fs/promises";
 import path from "path";
@@ -49,6 +49,7 @@ async function takeScreenshot(): Promise<string | null> {
 }
 
 async function analyzeScreenshot() {
+  await closeMainWindow();
   const screenshotPath = await takeScreenshot();
 
   if (screenshotPath === null) {
