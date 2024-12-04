@@ -529,6 +529,20 @@
       "title": "Create Calendar Event",
       "description": "Create a calendar event",
       "mode": "view"
+    },
+    {
+      "name": "custom_query",
+      "title": "Custom Query",
+      "description": "Send selected text with custom prefix to ChatGPT",
+      "mode": "no-view",
+      "arguments": [
+        {
+          "name": "prefix",
+          "placeholder": "What do you want ChatGPT to do?",
+          "type": "text",
+          "required": true
+        }
+      ]
     }
   ],
   "dependencies": {
