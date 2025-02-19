@@ -567,6 +567,10 @@
       "type": "dropdown",
       "data": [
         {
+          "title": "ChatGPT-4o-latest",
+          "value": "chatgpt-4o-latest"
+        },
+        {
           "title": "GPT-4o",
           "value": "gpt-4o"
         },
