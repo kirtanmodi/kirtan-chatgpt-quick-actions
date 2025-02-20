@@ -2,7 +2,7 @@ import { getSelectedText, showHUD, Clipboard, LaunchProps } from "@raycast/api";
 import { runAppleScript } from "run-applescript";
 
 const GROK_URL = "https://grok.com/";
-const LOAD_DELAY = 1000; // 1 second
+const LOAD_DELAY = 2000; // 1 second
 const PASTE_DELAY = 500; // 0.5 seconds
 
 async function copyTextToClipboard(prefix: string, text: string): Promise<void> {
