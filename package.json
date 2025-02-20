@@ -543,6 +543,20 @@
           "required": true
         }
       ]
+    },
+    {
+      "name": "custom_query_grok",
+      "title": "Custom Query Grok",
+      "description": "Send selected text with custom prefix to Grok",
+      "mode": "no-view",
+      "arguments": [
+        {
+          "name": "prefix",
+          "placeholder": "What do you want Grok to do?",
+          "type": "text",
+          "required": true
+        }
+      ]
     }
   ],
   "dependencies": {
