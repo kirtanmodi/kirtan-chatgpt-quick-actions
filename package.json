@@ -533,14 +533,54 @@
     {
       "name": "custom_query",
       "title": "Custom Query",
-      "description": "Send selected text with custom prefix to ChatGPT",
+      "description": "Send selected text with custom prefix to AI platform of choice",
       "mode": "no-view",
       "arguments": [
         {
           "name": "prefix",
-          "placeholder": "What do you want ChatGPT to do?",
+          "placeholder": "What do you want the AI to do?",
           "type": "text",
           "required": true
+        }
+      ],
+      "preferences": [
+        {
+          "name": "aiPlatform",
+          "title": "AI Platform",
+          "description": "Choose which AI platform to use",
+          "type": "dropdown",
+          "required": true,
+          "default": "chatgpt",
+          "data": [
+            {
+              "title": "ChatGPT",
+              "value": "chatgpt"
+            },
+            {
+              "title": "Claude",
+              "value": "claude"
+            },
+            {
+              "title": "Custom URL",
+              "value": "custom"
+            }
+          ]
+        },
+        {
+          "name": "customUrl",
+          "title": "Custom AI URL",
+          "description": "URL for custom AI platform (only used if 'Custom URL' is selected)",
+          "type": "textfield",
+          "required": false,
+          "default": "https://chat.openai.com/"
+        },
+        {
+          "name": "customSelector",
+          "title": "Custom AI Selector",
+          "description": "CSS selector for the input field of custom AI platform (only used if 'Custom URL' is selected)",
+          "type": "textfield",
+          "required": false,
+          "default": "textarea"
         }
       ]
     },
