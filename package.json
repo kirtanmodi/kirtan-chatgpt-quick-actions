@@ -581,6 +581,23 @@
           "type": "textfield",
           "required": false,
           "default": "textarea"
+        },
+        {
+          "name": "browser",
+          "title": "Browser",
+          "description": "Choose which browser to use (overrides global default)",
+          "type": "dropdown",
+          "required": false,
+          "data": [
+            {
+              "title": "Safari",
+              "value": "safari"
+            },
+            {
+              "title": "Google Chrome",
+              "value": "chrome"
+            }
+          ]
         }
       ]
     },
@@ -595,6 +612,25 @@
           "placeholder": "What do you want Grok to do?",
           "type": "text",
           "required": true
+        }
+      ],
+      "preferences": [
+        {
+          "name": "browser",
+          "title": "Browser",
+          "description": "Choose which browser to use (overrides global default)",
+          "type": "dropdown",
+          "required": false,
+          "data": [
+            {
+              "title": "Safari",
+              "value": "safari"
+            },
+            {
+              "title": "Google Chrome",
+              "value": "chrome"
+            }
+          ]
         }
       ]
     }
@@ -647,6 +683,24 @@
       ],
       "required": true,
       "title": "OpenAI Model"
+    },
+    {
+      "name": "defaultBrowser",
+      "title": "Default Browser",
+      "description": "Choose which browser to use by default for all commands",
+      "type": "dropdown",
+      "required": true,
+      "default": "safari",
+      "data": [
+        {
+          "title": "Safari",
+          "value": "safari"
+        },
+        {
+          "title": "Google Chrome",
+          "value": "chrome"
+        }
+      ]
     },
     {
       "name": "sidenote",
