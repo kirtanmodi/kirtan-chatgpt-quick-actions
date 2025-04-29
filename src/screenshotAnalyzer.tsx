@@ -1,20 +1,43 @@
-import { showHUD, showToast, Toast, popToRoot, closeMainWindow } from "@raycast/api";
-import { runAppleScript } from "run-applescript";
+import { closeMainWindow, getPreferenceValues, showHUD, showToast, Toast } from "@raycast/api";
 import fs from "fs/promises";
 import path from "path";
+import { runAppleScript } from "run-applescript";
+import {
+  AI_PLATFORMS,
+  Browser,
+  focusTextAreaInBrowser,
+  isChromeJSPermissionError,
+  openAIPlatformInBrowser,
+} from "./ai_platform_utils";
 
 const TEMP_SCREENSHOT_NAME = "temp_screenshot.png";
+
+interface Preferences {
+  defaultBrowser: string;
+  defaultAIService: string;
+}
 
 export default async function ScreenshotAnalyzer() {
   try {
     await analyzeScreenshot();
   } catch (error) {
     console.error("Error:", error);
-    await showToast({
-      style: Toast.Style.Failure,
-      title: "Error",
-      message: error instanceof Error ? error.message : String(error),
-    });
+
+    // Check for Chrome JavaScript permission error
+    if (isChromeJSPermissionError(error)) {
+      await showToast({
+        style: Toast.Style.Failure,
+        title: "Chrome JavaScript Permission Error",
+        message:
+          "Please enable JavaScript from Apple Events in Chrome: View > Developer > Allow JavaScript from Apple Events",
+      });
+    } else {
+      await showToast({
+        style: Toast.Style.Failure,
+        title: "Error",
+        message: error instanceof Error ? error.message : String(error),
+      });
+    }
   }
 }
 
@@ -60,9 +83,32 @@ async function analyzeScreenshot() {
   try {
     await showHUD("Processing screenshot...");
     await copyScreenshotToClipboard(screenshotPath);
-    await openChatGPTInSafari();
-    await sendPromptToChatGPT();
-    await showHUD("Screenshot and prompt sent to ChatGPT in Safari.");
+
+    const preferences = getPreferenceValues<Preferences>();
+    const globalPreferences = getPreferenceValues();
+
+    // Use command-specific preference if set, otherwise fall back to global preference
+    const browserPref = preferences.defaultBrowser || globalPreferences.defaultBrowser;
+    const browser = browserPref === "chrome" ? Browser.CHROME : Browser.SAFARI;
+    const aiService = preferences.defaultAIService === "claude" ? AI_PLATFORMS.CLAUDE : AI_PLATFORMS.CHATGPT;
+
+    await openAIPlatformInBrowser(aiService.url, browser);
+
+    try {
+      await sendPromptToAIService(aiService, browser);
+      await showHUD(
+        `Screenshot and prompt sent to ${aiService.name} in ${browser === Browser.CHROME ? "Chrome" : "Safari"}.`
+      );
+    } catch (error) {
+      // Check for Chrome JavaScript permission error
+      if (isChromeJSPermissionError(error)) {
+        throw new Error(
+          "Chrome JavaScript permission error: Please enable 'Allow JavaScript from Apple Events' in Chrome menu: View > Developer"
+        );
+      } else {
+        throw error;
+      }
+    }
   } catch (error) {
     throw new Error(`Failed to analyze screenshot: ${error}`);
   } finally {
@@ -78,37 +124,57 @@ async function copyScreenshotToClipboard(path: string) {
   }
 }
 
-async function openChatGPTInSafari() {
-  const script = `
-    tell application "Safari"
-      open location "https://chat.openai.com/"
-      activate
-    end tell
-  `;
-  try {
-    await runAppleScript(script);
-  } catch (error) {
-    throw new Error(`Failed to open ChatGPT in Safari: ${error}`);
-  }
-}
-
-async function sendPromptToChatGPT() {
+async function sendPromptToAIService(
+  aiPlatform: typeof AI_PLATFORMS.CHATGPT | typeof AI_PLATFORMS.CLAUDE,
+  browser: Browser
+) {
   const promptText =
     "Please analyze this screenshot and describe what you see, try to help me understand what is being discussed, keep it short and concise:";
-  const script = `
-    tell application "Safari"
-      delay 2
-      do JavaScript "document.querySelector('textarea').focus();" in document 1
-    end tell
-    tell application "System Events"
-      keystroke "${promptText}"
-      keystroke "v" using command down
-    end tell
-  `;
+
   try {
-    await runAppleScript(script);
+    if (browser === Browser.CHROME) {
+      try {
+        await focusTextAreaInBrowser(aiPlatform.selector, browser);
+      } catch (error) {
+        // For Chrome, if focusing fails due to JavaScript permissions, provide manual instructions
+        if (isChromeJSPermissionError(error)) {
+          // Only handle typing and pasting without focus
+          await runAppleScript(`
+            tell application "System Events"
+              delay 2
+              keystroke "${promptText}"
+              keystroke "v" using command down
+              delay 0.5
+              keystroke return
+            end tell
+          `);
+          return;
+        } else {
+          throw error;
+        }
+      }
+    } else {
+      // Safari should work as normal
+      await focusTextAreaInBrowser(aiPlatform.selector, browser);
+    }
+
+    // Type in the prompt text
+    await runAppleScript(`
+      tell application "System Events"
+        keystroke "${promptText}"
+        keystroke "v" using command down
+      end tell
+    `);
+
+    // Press Enter/Return to send
+    await runAppleScript(`
+      tell application "System Events"
+        delay 0.5
+        keystroke return
+      end tell
+    `);
   } catch (error) {
-    throw new Error(`Failed to send prompt to ChatGPT: ${error}`);
+    throw new Error(`Failed to send prompt to ${aiPlatform.name}: ${error}`);
   }
 }
 

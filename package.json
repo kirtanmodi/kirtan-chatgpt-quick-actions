@@ -499,8 +499,45 @@
     {
       "name": "screenshotAnalyzer",
       "title": "Screenshot Analyzer",
-      "description": "Take a screenshot and analyze it with ChatGPT",
-      "mode": "no-view"
+      "description": "Take a screenshot and analyze it with ChatGPT or Claude in your preferred browser. For Chrome, enable 'Allow JavaScript from Apple Events' in View > Developer menu.",
+      "mode": "no-view",
+      "preferences": [
+        {
+          "name": "defaultBrowser",
+          "title": "Browser",
+          "description": "Choose which browser to use (overrides global default)",
+          "type": "dropdown",
+          "required": false,
+          "data": [
+            {
+              "title": "Safari",
+              "value": "safari"
+            },
+            {
+              "title": "Google Chrome",
+              "value": "chrome"
+            }
+          ]
+        },
+        {
+          "name": "defaultAIService",
+          "title": "AI Service",
+          "description": "Choose which AI service to use",
+          "type": "dropdown",
+          "required": false,
+          "default": "chatgpt",
+          "data": [
+            {
+              "title": "ChatGPT",
+              "value": "chatgpt"
+            },
+            {
+              "title": "Claude",
+              "value": "claude"
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "simple_explain",
