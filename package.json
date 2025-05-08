@@ -570,7 +570,7 @@
     {
       "name": "custom_query",
       "title": "Custom Query",
-      "description": "Send selected text with custom prefix to AI platform of choice (Chrome or Safari). For Chrome, enable 'Allow JavaScript from Apple Events' in View > Developer menu.",
+      "description": "Send selected text with custom prefix to AI platform of choice (Chrome or Safari). Supports reusing existing tabs or opening new ones. For Chrome, enable 'Allow JavaScript from Apple Events' in View > Developer menu.",
       "mode": "no-view",
       "arguments": [
         {
@@ -635,13 +635,31 @@
               "value": "chrome"
             }
           ]
+        },
+        {
+          "name": "tabBehavior",
+          "title": "Tab Behavior",
+          "description": "Choose whether to open a new tab or reuse existing tabs",
+          "type": "dropdown",
+          "required": false,
+          "default": "reuse",
+          "data": [
+            {
+              "title": "Reuse existing tabs",
+              "value": "reuse"
+            },
+            {
+              "title": "Always open new tab",
+              "value": "new"
+            }
+          ]
         }
       ]
     },
     {
       "name": "custom_query_grok",
       "title": "Custom Query Grok",
-      "description": "Send selected text with custom prefix to Grok (Chrome or Safari). For Chrome, enable 'Allow JavaScript from Apple Events' in View > Developer menu.",
+      "description": "Send selected text with custom prefix to Grok (Chrome or Safari). Supports reusing existing tabs or opening new ones. For Chrome, enable 'Allow JavaScript from Apple Events' in View > Developer menu.",
       "mode": "no-view",
       "arguments": [
         {
@@ -666,6 +684,24 @@
             {
               "title": "Google Chrome",
               "value": "chrome"
+            }
+          ]
+        },
+        {
+          "name": "tabBehavior",
+          "title": "Tab Behavior",
+          "description": "Choose whether to open a new tab or reuse existing tabs",
+          "type": "dropdown",
+          "required": false,
+          "default": "reuse",
+          "data": [
+            {
+              "title": "Reuse existing tabs",
+              "value": "reuse"
+            },
+            {
+              "title": "Always open new tab",
+              "value": "new"
             }
           ]
         }

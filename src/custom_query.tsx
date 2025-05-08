@@ -7,6 +7,7 @@ interface Preferences {
   customUrl?: string;
   customSelector?: string;
   browser?: string;
+  tabBehavior?: string;
 }
 
 // Define interface for global preferences
@@ -49,7 +50,18 @@ export default async function Command(props: LaunchProps<{ arguments: Arguments.
     const browserPreference = preferences.browser || globalPreferences.defaultBrowser || "safari";
     const browser = browserPreference === "chrome" ? Browser.CHROME : Browser.SAFARI;
 
-    await sendToAIPlatformWithBrowser(selectedText, prefix, platformUrl, textareaSelector, platformName, browser);
+    // Determine tab behavior from preferences, defaulting to reuse
+    const tabBehavior = (preferences.tabBehavior || "reuse") as "new" | "reuse";
+
+    await sendToAIPlatformWithBrowser(
+      selectedText,
+      prefix,
+      platformUrl,
+      textareaSelector,
+      platformName,
+      browser,
+      tabBehavior
+    );
   } catch (error) {
     console.error("Error:", error);
     throw error;

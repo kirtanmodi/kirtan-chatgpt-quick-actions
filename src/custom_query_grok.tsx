@@ -4,6 +4,7 @@ import { AI_PLATFORMS, sendToAIPlatformWithBrowser, Browser } from "./ai_platfor
 // Define interface for preferences
 interface Preferences {
   browser?: string;
+  tabBehavior?: string;
 }
 
 // Define interface for global preferences
@@ -17,19 +18,23 @@ export default async function Command(props: LaunchProps<{ arguments: Arguments.
     const { prefix } = props.arguments;
     const preferences = getPreferenceValues<Preferences>();
     const globalPreferences = getPreferenceValues<GlobalPreferences>();
-    
+
     // Determine which browser to use
     // First check command-specific preference, then fall back to global preference
     const browserPreference = preferences.browser || globalPreferences.defaultBrowser || "safari";
     const browser = browserPreference === "chrome" ? Browser.CHROME : Browser.SAFARI;
 
+    // Determine tab behavior from preferences, defaulting to reuse
+    const tabBehavior = (preferences.tabBehavior || "reuse") as "new" | "reuse";
+
     await sendToAIPlatformWithBrowser(
-      selectedText, 
-      prefix, 
-      AI_PLATFORMS.GROK.url, 
-      AI_PLATFORMS.GROK.selector, 
+      selectedText,
+      prefix,
+      AI_PLATFORMS.GROK.url,
+      AI_PLATFORMS.GROK.selector,
       AI_PLATFORMS.GROK.name,
-      browser
+      browser,
+      tabBehavior
     );
   } catch (error) {
     console.error("Error:", error);
