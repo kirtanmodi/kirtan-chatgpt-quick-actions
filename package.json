@@ -570,7 +570,7 @@
     {
       "name": "custom_query",
       "title": "Custom Query",
-      "description": "Send selected text with custom prefix to AI platform of choice",
+      "description": "Send selected text with custom prefix to AI platform of choice (Chrome or Safari). For Chrome, enable 'Allow JavaScript from Apple Events' in View > Developer menu.",
       "mode": "no-view",
       "arguments": [
         {
@@ -641,7 +641,7 @@
     {
       "name": "custom_query_grok",
       "title": "Custom Query Grok",
-      "description": "Send selected text with custom prefix to Grok",
+      "description": "Send selected text with custom prefix to Grok (Chrome or Safari). For Chrome, enable 'Allow JavaScript from Apple Events' in View > Developer menu.",
       "mode": "no-view",
       "arguments": [
         {

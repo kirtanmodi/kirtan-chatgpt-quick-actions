@@ -20,12 +20,12 @@ export default async function Command(props: LaunchProps<{ arguments: Arguments.
     const { prefix } = props.arguments;
     const preferences = getPreferenceValues<Preferences>();
     const globalPreferences = getPreferenceValues<GlobalPreferences>();
-    
+
     // Determine which AI platform to use
     let platformUrl = AI_PLATFORMS.CHATGPT.url;
     let textareaSelector = AI_PLATFORMS.CHATGPT.selector;
     let platformName = AI_PLATFORMS.CHATGPT.name;
-    
+
     switch (preferences.aiPlatform) {
       case "chatgpt":
         platformUrl = AI_PLATFORMS.CHATGPT.url;
@@ -49,14 +49,7 @@ export default async function Command(props: LaunchProps<{ arguments: Arguments.
     const browserPreference = preferences.browser || globalPreferences.defaultBrowser || "safari";
     const browser = browserPreference === "chrome" ? Browser.CHROME : Browser.SAFARI;
 
-    await sendToAIPlatformWithBrowser(
-      selectedText, 
-      prefix, 
-      platformUrl, 
-      textareaSelector, 
-      platformName,
-      browser
-    );
+    await sendToAIPlatformWithBrowser(selectedText, prefix, platformUrl, textareaSelector, platformName, browser);
   } catch (error) {
     console.error("Error:", error);
     throw error;

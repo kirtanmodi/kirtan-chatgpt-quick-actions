@@ -1,4 +1,4 @@
-import { Clipboard, showHUD } from "@raycast/api";
+import { Clipboard, showHUD, closeMainWindow } from "@raycast/api";
 import { runAppleScript } from "run-applescript";
 
 // Define URLs for different AI platforms
@@ -47,6 +47,9 @@ export async function copyTextToClipboard(prefix: string, text: string): Promise
  */
 export async function openAIPlatformInBrowser(url: string, browser: Browser): Promise<void> {
   try {
+    // Close Raycast main window before opening browser
+    await closeMainWindow();
+
     if (browser === Browser.SAFARI) {
       await runAppleScript(`
 				tell application "Safari"
@@ -129,15 +132,34 @@ export async function pasteAndSendTextInBrowser(browser: Browser): Promise<void>
 				end tell
 			`);
     } else if (browser === Browser.CHROME) {
-      await runAppleScript(`
-				tell application "Google Chrome"
-					tell application "System Events"
-						keystroke "v" using command down
-						delay ${PASTE_DELAY / 1000}
-						keystroke return
-					end tell
-				end tell
-			`);
+      try {
+        // First try to use Chrome's focus
+        await runAppleScript(`
+          tell application "Google Chrome"
+            tell application "System Events"
+              keystroke "v" using command down
+              delay ${PASTE_DELAY / 1000}
+              keystroke return
+            end tell
+          end tell
+        `);
+      } catch (error) {
+        // If Chrome's focus fails, use a more direct approach with System Events
+        if (isChromeJSPermissionError(error)) {
+          // Only handle typing and pasting without relying on Chrome's JavaScript focus
+          await runAppleScript(`
+            tell application "System Events"
+              delay ${LOAD_DELAY / 1000}
+              keystroke "v" using command down
+              delay ${PASTE_DELAY / 1000}
+              keystroke return
+            end tell
+          `);
+          return;
+        } else {
+          throw error;
+        }
+      }
     }
   } catch (error) {
     throw new Error(`Failed to paste and send text in ${browser}: ${error}`);
@@ -158,9 +180,29 @@ export async function sendToAIPlatformWithBrowser(
   try {
     await copyTextToClipboard(prefix, text);
     await openAIPlatformInBrowser(platformUrl, browser);
-    await focusTextAreaInBrowser(selector, browser);
-    await pasteAndSendTextInBrowser(browser);
 
+    try {
+      await focusTextAreaInBrowser(selector, browser);
+    } catch (error) {
+      // For Chrome, if focusing fails due to JavaScript permissions
+      if (browser === Browser.CHROME && isChromeJSPermissionError(error)) {
+        // Show a detailed error message but continue with pasting
+        console.warn(
+          "Chrome JavaScript permission error: Please enable 'Allow JavaScript from Apple Events' in Chrome menu: View > Developer"
+        );
+
+        // We'll still try to paste without focusing on the textarea
+        await pasteAndSendTextInBrowser(browser);
+        await showHUD(
+          `${platformName} opened in Chrome. JavaScript permissions not enabled. Text may not be pasted correctly.`
+        );
+        return;
+      } else {
+        throw error;
+      }
+    }
+
+    await pasteAndSendTextInBrowser(browser);
     await showHUD(`${platformName} opened in ${browser === Browser.SAFARI ? "Safari" : "Chrome"}. Query sent.`);
   } catch (error) {
     console.error("Error:", error);
