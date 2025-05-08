@@ -289,7 +289,7 @@ export async function openAIPlatformInSafari(url: string): Promise<void> {
 }
 
 export async function focusTextArea(selector: string): Promise<void> {
-  return focusTextAreaInBrowser(selector, Browser.SAFARI);
+  return focusTextAreaInBrowser(selector, Browser.SAFARI, LOAD_DELAY);
 }
 
 export async function pasteAndSendText(): Promise<void> {
