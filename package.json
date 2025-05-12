@@ -803,6 +803,14 @@
       "type": "dropdown",
       "data": [
         {
+          "title": "GPT-4.1 nano",
+          "value": "gpt-4.1-nano"
+        },
+        {
+          "title": "GPT-4.1",
+          "value": "gpt-4.1"
+        },
+        {
           "title": "ChatGPT-4o-latest",
           "value": "chatgpt-4o-latest"
         },
