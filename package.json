@@ -882,6 +882,49 @@
           ]
         }
       ]
+    },
+    {
+      "name": "chatgpt_voice",
+      "title": "ChatGPT Voice",
+      "description": "Open ChatGPT and activate voice input by clicking the microphone button",
+      "mode": "no-view",
+      "preferences": [
+        {
+          "name": "browser",
+          "title": "Browser",
+          "description": "Choose which browser to use (overrides global default)",
+          "type": "dropdown",
+          "required": false,
+          "data": [
+            {
+              "title": "Safari",
+              "value": "safari"
+            },
+            {
+              "title": "Google Chrome",
+              "value": "chrome"
+            }
+          ]
+        },
+        {
+          "name": "tabBehavior",
+          "title": "Tab Behavior",
+          "description": "Choose whether to open a new tab or reuse existing tabs",
+          "type": "dropdown",
+          "required": false,
+          "default": "reuse",
+          "data": [
+            {
+              "title": "Reuse existing tabs",
+              "value": "reuse"
+            },
+            {
+              "title": "Always open new tab",
+              "value": "new"
+            }
+          ]
+        }
+      ]
     }
   ],
   "dependencies": {
