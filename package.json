@@ -730,6 +730,109 @@
       ]
     },
     {
+      "name": "bulletPoints",
+      "title": "Create Bullet Points",
+      "description": "Convert selected text into organized bullet points using AI in browser",
+      "mode": "no-view",
+      "preferences": [
+        {
+          "name": "bullet_style",
+          "title": "Bullet Style",
+          "description": "Style of bullet points",
+          "type": "dropdown",
+          "default": "hierarchical",
+          "required": false,
+          "data": [
+            {
+              "title": "Hierarchical",
+              "value": "hierarchical"
+            },
+            {
+              "title": "Simple List",
+              "value": "simple"
+            },
+            {
+              "title": "Numbered",
+              "value": "numbered"
+            }
+          ]
+        },
+        {
+          "name": "aiPlatform",
+          "title": "AI Platform",
+          "description": "Choose which AI platform to use",
+          "type": "dropdown",
+          "required": true,
+          "default": "chatgpt",
+          "data": [
+            {
+              "title": "ChatGPT",
+              "value": "chatgpt"
+            },
+            {
+              "title": "Claude",
+              "value": "claude"
+            },
+            {
+              "title": "Custom URL",
+              "value": "custom"
+            }
+          ]
+        },
+        {
+          "name": "customUrl",
+          "title": "Custom AI URL",
+          "description": "URL for custom AI platform (only used if 'Custom URL' is selected)",
+          "type": "textfield",
+          "required": false,
+          "default": "https://chat.openai.com/"
+        },
+        {
+          "name": "customSelector",
+          "title": "Custom AI Selector",
+          "description": "CSS selector for the input field of custom AI platform (only used if 'Custom URL' is selected)",
+          "type": "textfield",
+          "required": false,
+          "default": "textarea"
+        },
+        {
+          "name": "browser",
+          "title": "Browser",
+          "description": "Choose which browser to use (overrides global default)",
+          "type": "dropdown",
+          "required": false,
+          "data": [
+            {
+              "title": "Safari",
+              "value": "safari"
+            },
+            {
+              "title": "Google Chrome",
+              "value": "chrome"
+            }
+          ]
+        },
+        {
+          "name": "tabBehavior",
+          "title": "Tab Behavior",
+          "description": "Choose whether to open a new tab or reuse existing tabs",
+          "type": "dropdown",
+          "required": false,
+          "default": "reuse",
+          "data": [
+            {
+              "title": "Reuse existing tabs",
+              "value": "reuse"
+            },
+            {
+              "title": "Always open new tab",
+              "value": "new"
+            }
+          ]
+        }
+      ]
+    },
+    {
       "name": "custom_query_grok",
       "title": "Custom Query Grok",
       "description": "Send selected text with custom prefix to Grok (Chrome or Safari). Supports reusing existing tabs or opening new ones. For Chrome, enable 'Allow JavaScript from Apple Events' in View > Developer menu.",
