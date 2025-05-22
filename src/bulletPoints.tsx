@@ -16,7 +16,7 @@ interface GlobalPreferences {
 
 function getBulletPointsPrefix(style: string): string {
   const basePrefix =
-    "Explain this clearly in well-organized bullet points explainning whats going on in detail. Keep it to the point and no fluff. ";
+    "I'm confused. Explain using bullet points, keep it simple and short, in plain words, and at the end use a real-world analogy";
 
   switch (style) {
     case "hierarchical":
@@ -25,17 +25,14 @@ function getBulletPointsPrefix(style: string): string {
         "Create a hierarchical structure with main points and sub-points where appropriate. Use indentation to show the hierarchy. The Topic and Subtopics should be in BOLD. Group related information together under main topics.\n\n"
       );
     case "simple":
-      return (
-        basePrefix +
-        "Create a simple, flat list of bullet points. Each point should be concise and start with a bullet (•). Keep all points at the same level without any sub-points or hierarchy.\n\n"
-      );
+      return basePrefix;
     case "numbered":
       return (
         basePrefix +
         "Create a numbered list (1., 2., 3., etc.) with clear, concise points. If there are sub-points, use letters (a., b., c.) for secondary items. Maintain logical order and grouping.\n\n"
       );
     default:
-      return basePrefix + "Create a hierarchical structure with main points and sub-points where appropriate.\n\n";
+      return basePrefix + "";
   }
 }
 
