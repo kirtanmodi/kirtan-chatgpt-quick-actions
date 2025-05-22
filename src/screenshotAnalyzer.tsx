@@ -134,7 +134,7 @@ async function sendPromptToAIService(
   try {
     if (browser === Browser.CHROME) {
       try {
-        await focusTextAreaInBrowser(aiPlatform.selector, browser);
+        await focusTextAreaInBrowser(aiPlatform.selector, browser, 1000);
       } catch (error) {
         // For Chrome, if focusing fails due to JavaScript permissions, provide manual instructions
         if (isChromeJSPermissionError(error)) {
@@ -155,7 +155,7 @@ async function sendPromptToAIService(
       }
     } else {
       // Safari should work as normal
-      await focusTextAreaInBrowser(aiPlatform.selector, browser);
+      await focusTextAreaInBrowser(aiPlatform.selector, browser, 1000);
     }
 
     // Type in the prompt text

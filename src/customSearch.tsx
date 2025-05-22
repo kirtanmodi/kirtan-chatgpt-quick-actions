@@ -1,5 +1,5 @@
-import { getSelectedText, LaunchProps, getPreferenceValues } from "@raycast/api";
-import { AI_PLATFORMS, sendToAIPlatformWithBrowser, Browser } from "./ai_platform_utils";
+import { getPreferenceValues, getSelectedText } from "@raycast/api";
+import { AI_PLATFORMS, Browser, sendToAIPlatformWithBrowser } from "./ai_platform_utils";
 
 // Define interface for preferences
 interface Preferences {
