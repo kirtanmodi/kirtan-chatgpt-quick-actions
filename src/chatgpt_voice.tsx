@@ -21,7 +21,7 @@ const MIC_BUTTON_SELECTORS = [
   "button[title*='voice' i]",
   "button[title*='microphone' i]",
 ];
-const LOAD_DELAY = 100;
+const LOAD_DELAY = 1000;
 
 async function clickMicButtonInBrowser(browser: Browser): Promise<void> {
   try {
