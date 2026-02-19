@@ -52,6 +52,8 @@ Every command exports a default function/component from `src/`. Commands are reg
 - **Global preferences** (in root `preferences[]` of `package.json`): API key, default model, default browser, SideNote toggle
 - **Per-command preferences** (in each command's `preferences[]`): custom prompt text, model override (defaults to `"global"` to follow the global model)
 - Model dropdown lists are duplicated across every command's preferences in `package.json` — when adding a new model, update the global dropdown AND every command's `model_*` dropdown
+- Current models (Feb 2026): `gpt-5.2`, `gpt-5.1`, `gpt-5.1-codex`, `gpt-5`, `gpt-5-mini`, `gpt-5-nano`, `gpt-4.1`, `gpt-4.1-mini`, `gpt-4.1-nano`
+- Fastest/cheapest model: `gpt-4.1-nano`
 
 ### AI Platforms (Browser Automation)
 
