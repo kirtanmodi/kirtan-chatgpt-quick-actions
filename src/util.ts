@@ -25,23 +25,38 @@ export function countToken(content: string) {
   return encode(content).length;
 }
 
+// Price per 1M tokens [input, output] in dollars
+// Source: https://openai.com/api/pricing/
+const MODEL_PRICING: Record<string, [number, number]> = {
+  // GPT-5.x family (source: platform.openai.com/docs/pricing, Feb 2026)
+  "gpt-5.2": [1.75, 14.0],
+  "gpt-5.1": [1.25, 10.0],
+  "gpt-5.1-codex": [0.25, 2.0],
+  "gpt-5": [1.25, 10.0],
+  "gpt-5-mini": [0.25, 2.0],
+  "gpt-5-nano": [0.05, 0.4],
+  // GPT-4.1 family
+  "gpt-4.1": [2.0, 8.0],
+  "gpt-4.1-mini": [0.4, 1.6],
+  "gpt-4.1-nano": [0.02, 0.15],
+  // GPT-4o family
+  "gpt-4o": [2.5, 10.0],
+  "gpt-4o-mini": [0.15, 0.6],
+  // Legacy
+  "gpt-4-turbo": [10.0, 30.0],
+  "gpt-4": [30.0, 60.0],
+  "gpt-3.5-turbo": [0.5, 1.5],
+  // Anthropic
+  "claude-opus-4-6": [5.0, 25.0],
+  "claude-sonnet-4-6": [3.0, 15.0],
+  "claude-haiku-4-5": [1.0, 5.0],
+};
+
 export function estimatePrice(prompt_token: number, output_token: number, model: string) {
   // price is per 1M tokens in dollars, but we are measuring in cents. Hence the denominator is 10,000
-  // from : https://openai.com/api/pricing/
-  let price = 0;
-  if (model == "gpt-3.5-turbo") {
-    price = (prompt_token * 0.5 + output_token * 1.5) / 10000;
-  } else if (model == "gpt-4-turbo") {
-    price = (prompt_token * 10.0 + output_token * 30.0) / 10000;
-  } else if (model == "gpt-4") {
-    price = (prompt_token * 30.0 + output_token * 60.0) / 10000;
-  } else if (model == "gpt-4o-mini") {
-    price = (prompt_token * 0.15 + output_token * 0.6) / 10000;
-  } else if (model == "gpt-4o") {
-    price = (prompt_token * 5.0 + output_token * 15.0) / 10000;
-  } else {
-    return -1;
-  }
+  const pricing = MODEL_PRICING[model];
+  if (!pricing) return -1;
+  const price = (prompt_token * pricing[0] + output_token * pricing[1]) / 10000;
   return naiveRound(price, 3);
 }
 

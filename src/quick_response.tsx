@@ -1,47 +1,46 @@
-import { getSelectedText, showHUD, Clipboard } from "@raycast/api";
-import { runAppleScript } from "run-applescript";
+import { getSelectedText, showHUD, getPreferenceValues } from "@raycast/api";
+import { sendToAIPlatformWithBrowser, AI_PLATFORMS, Browser } from "./ai_platform_utils";
 
 export default async function Command() {
   try {
-    // Get the selected text
     const selectedText = await getSelectedText();
+    const prefs = getPreferenceValues<{
+      aiPlatform?: string;
+      browser?: string;
+      tabBehavior?: string;
+      customUrl?: string;
+      customSelector?: string;
+    }>();
 
-    const prefix = "write a response to this, keep it simple and short:\n\n";
+    const prefix = "write a response to this, keep it simple and short:";
 
-    // Copy the text with prefix to clipboard
-    await Clipboard.copy(prefix + selectedText);
+    const browser = (prefs.browser as Browser) || Browser.SAFARI;
+    const tabBehavior = (prefs.tabBehavior as "new" | "reuse") || "reuse";
 
-    // Open ChatGPT website in Safari
-    await runAppleScript(`
-      tell application "Safari"
-        open location "https://chat.openai.com/"
-        activate
-      end tell
-    `);
+    let platformUrl: string;
+    let selector: string;
+    let platformName: string;
 
-    // Wait for the page to load and the textarea to be available
-    await runAppleScript(`
-      tell application "Safari"
-        delay 2 -- Wait for page load
-        do JavaScript "document.querySelector('textarea').focus();" in document 1
-      end tell
-    `);
+    switch (prefs.aiPlatform) {
+      case "claude":
+        platformUrl = AI_PLATFORMS.CLAUDE.url;
+        selector = AI_PLATFORMS.CLAUDE.selector;
+        platformName = AI_PLATFORMS.CLAUDE.name;
+        break;
+      case "custom":
+        platformUrl = prefs.customUrl || AI_PLATFORMS.CHATGPT.url;
+        selector = prefs.customSelector || "textarea";
+        platformName = "Custom AI";
+        break;
+      default:
+        platformUrl = AI_PLATFORMS.CHATGPT.url;
+        selector = AI_PLATFORMS.CHATGPT.selector;
+        platformName = AI_PLATFORMS.CHATGPT.name;
+    }
 
-    // Paste the copied text and send it
-    await runAppleScript(`
-      tell application "Safari"
-        tell application "System Events"
-          keystroke "v" using command down -- Paste the text
-          delay 0.5
-          keystroke return -- Send the message
-        end tell
-      end tell
-    `);
-
-    // Show a HUD to inform the user
-    await showHUD("ChatGPT opened in Safari. Text pasted and sent.");
+    await sendToAIPlatformWithBrowser(selectedText, prefix, platformUrl, selector, platformName, browser, tabBehavior);
   } catch (error) {
     console.error("Error:", error);
-    await showHUD("Error: Failed to open ChatGPT or paste text in Safari.");
+    await showHUD(`Error: ${error instanceof Error ? error.message : String(error)}`);
   }
 }

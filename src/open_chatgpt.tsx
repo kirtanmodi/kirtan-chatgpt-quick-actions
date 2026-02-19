@@ -1,72 +1,45 @@
-import { getSelectedText, showHUD, Clipboard } from "@raycast/api";
-import { runAppleScript } from "run-applescript";
-
-const CHATGPT_URL = "https://chat.openai.com/";
-const LOAD_DELAY = 2000; // 2 seconds
-const PASTE_DELAY = 500; // 0.5 seconds
-
-const PREFIX = `Provide a clear, step-by-step explanation of the topic using simple language. Start with a brief TLDR summary, followed by detailed points. Use a relatable real-world analogy to make the concept easier to understand. Keep the explanation concise, straightforward, and focused.: \n\n`;
-
-async function copyTextToClipboard(text: string): Promise<void> {
-  try {
-    await Clipboard.copy(PREFIX + text);
-  } catch (error) {
-    throw new Error(`Failed to copy text to clipboard: ${error}`);
-  }
-}
-
-async function openChatGPTInSafari(): Promise<void> {
-  try {
-    await runAppleScript(`
-      tell application "Safari"
-        open location "${CHATGPT_URL}"
-        activate
-      end tell
-    `);
-  } catch (error) {
-    throw new Error(`Failed to open ChatGPT in Safari: ${error}`);
-  }
-}
-
-async function focusTextArea(): Promise<void> {
-  try {
-    await runAppleScript(`
-      tell application "Safari"
-        delay ${LOAD_DELAY / 1000}
-        do JavaScript "document.querySelector('textarea').focus();" in document 1
-      end tell
-    `);
-  } catch (error) {
-    throw new Error(`Failed to focus on textarea: ${error}`);
-  }
-}
-
-async function pasteAndSendText(): Promise<void> {
-  try {
-    await runAppleScript(`
-      tell application "Safari"
-        tell application "System Events"
-          keystroke "v" using command down
-          delay ${PASTE_DELAY / 1000}
-          keystroke return
-        end tell
-      end tell
-    `);
-  } catch (error) {
-    throw new Error(`Failed to paste and send text: ${error}`);
-  }
-}
+import { getSelectedText, showHUD, getPreferenceValues } from "@raycast/api";
+import { sendToAIPlatformWithBrowser, AI_PLATFORMS, Browser } from "./ai_platform_utils";
 
 export default async function Command() {
   try {
     const selectedText = await getSelectedText();
+    const prefs = getPreferenceValues<{
+      aiPlatform?: string;
+      browser?: string;
+      tabBehavior?: string;
+      customUrl?: string;
+      customSelector?: string;
+    }>();
 
-    await copyTextToClipboard(selectedText);
-    await openChatGPTInSafari();
-    await focusTextArea();
-    await pasteAndSendText();
+    const prefix =
+      "Provide a clear, step-by-step explanation of the topic using simple language. Start with a brief TLDR summary, followed by detailed points. Use a relatable real-world analogy to make the concept easier to understand. Keep the explanation concise, straightforward, and focused.:";
 
-    await showHUD("ChatGPT opened in Safari. Text pasted and sent.");
+    const browser = (prefs.browser as Browser) || Browser.SAFARI;
+    const tabBehavior = (prefs.tabBehavior as "new" | "reuse") || "reuse";
+
+    let platformUrl: string;
+    let selector: string;
+    let platformName: string;
+
+    switch (prefs.aiPlatform) {
+      case "claude":
+        platformUrl = AI_PLATFORMS.CLAUDE.url;
+        selector = AI_PLATFORMS.CLAUDE.selector;
+        platformName = AI_PLATFORMS.CLAUDE.name;
+        break;
+      case "custom":
+        platformUrl = prefs.customUrl || AI_PLATFORMS.CHATGPT.url;
+        selector = prefs.customSelector || "textarea";
+        platformName = "Custom AI";
+        break;
+      default:
+        platformUrl = AI_PLATFORMS.CHATGPT.url;
+        selector = AI_PLATFORMS.CHATGPT.selector;
+        platformName = AI_PLATFORMS.CHATGPT.name;
+    }
+
+    await sendToAIPlatformWithBrowser(selectedText, prefix, platformUrl, selector, platformName, browser, tabBehavior);
   } catch (error) {
     console.error("Error:", error);
     await showHUD(`Error: ${error instanceof Error ? error.message : String(error)}`);

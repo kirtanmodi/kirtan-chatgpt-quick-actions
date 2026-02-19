@@ -77,6 +77,22 @@
               "value": "gpt-4.1-nano"
             }
           ]
+        },
+        {
+          "name": "tone",
+          "title": "Tone",
+          "description": "Output tone/style for this command",
+          "type": "dropdown",
+          "required": false,
+          "default": "default",
+          "data": [
+            { "title": "Default (no override)", "value": "default" },
+            { "title": "Professional", "value": "professional" },
+            { "title": "Casual", "value": "casual" },
+            { "title": "Academic", "value": "academic" },
+            { "title": "Concise", "value": "concise" },
+            { "title": "Creative", "value": "creative" }
+          ]
         }
       ]
     },
@@ -142,6 +158,22 @@
               "title": "GPT-4.1 nano",
               "value": "gpt-4.1-nano"
             }
+          ]
+        },
+        {
+          "name": "tone",
+          "title": "Tone",
+          "description": "Output tone/style for this command",
+          "type": "dropdown",
+          "required": false,
+          "default": "default",
+          "data": [
+            { "title": "Default (no override)", "value": "default" },
+            { "title": "Professional", "value": "professional" },
+            { "title": "Casual", "value": "casual" },
+            { "title": "Academic", "value": "academic" },
+            { "title": "Concise", "value": "concise" },
+            { "title": "Creative", "value": "creative" }
           ]
         }
       ]
@@ -209,6 +241,22 @@
               "value": "gpt-4.1-nano"
             }
           ]
+        },
+        {
+          "name": "tone",
+          "title": "Tone",
+          "description": "Output tone/style for this command",
+          "type": "dropdown",
+          "required": false,
+          "default": "default",
+          "data": [
+            { "title": "Default (no override)", "value": "default" },
+            { "title": "Professional", "value": "professional" },
+            { "title": "Casual", "value": "casual" },
+            { "title": "Academic", "value": "academic" },
+            { "title": "Concise", "value": "concise" },
+            { "title": "Creative", "value": "creative" }
+          ]
         }
       ]
     },
@@ -223,7 +271,7 @@
           "title": "Custom Prompt",
           "description": "The prompt for the custom action command",
           "type": "textfield",
-          "default": "Refine the writing and correct grammar mistakes: \n\n",
+          "default": "Enter your custom prompt here: \n\n",
           "required": false
         },
         {
@@ -274,6 +322,22 @@
               "title": "GPT-4.1 nano",
               "value": "gpt-4.1-nano"
             }
+          ]
+        },
+        {
+          "name": "tone",
+          "title": "Tone",
+          "description": "Output tone/style for this command",
+          "type": "dropdown",
+          "required": false,
+          "default": "default",
+          "data": [
+            { "title": "Default (no override)", "value": "default" },
+            { "title": "Professional", "value": "professional" },
+            { "title": "Casual", "value": "casual" },
+            { "title": "Academic", "value": "academic" },
+            { "title": "Concise", "value": "concise" },
+            { "title": "Creative", "value": "creative" }
           ]
         }
       ]
@@ -535,20 +599,245 @@
     {
       "name": "open_chatgpt",
       "title": "Open in ChatGPT",
-      "description": "Select text, open ChatGPT website, and paste the text",
-      "mode": "no-view"
+      "description": "Select text and send to AI platform for a detailed explanation with TLDR",
+      "mode": "no-view",
+      "preferences": [
+        {
+          "name": "aiPlatform",
+          "title": "AI Platform",
+          "description": "Choose which AI platform to use",
+          "type": "dropdown",
+          "required": false,
+          "default": "chatgpt",
+          "data": [
+            {
+              "title": "ChatGPT",
+              "value": "chatgpt"
+            },
+            {
+              "title": "Claude",
+              "value": "claude"
+            },
+            {
+              "title": "Custom URL",
+              "value": "custom"
+            }
+          ]
+        },
+        {
+          "name": "customUrl",
+          "title": "Custom AI URL",
+          "description": "URL for custom AI platform (only used if 'Custom URL' is selected)",
+          "type": "textfield",
+          "required": false,
+          "default": "https://chat.openai.com/"
+        },
+        {
+          "name": "customSelector",
+          "title": "Custom AI Selector",
+          "description": "CSS selector for the input field of custom AI platform",
+          "type": "textfield",
+          "required": false,
+          "default": "textarea"
+        },
+        {
+          "name": "browser",
+          "title": "Browser",
+          "description": "Choose which browser to use (overrides global default)",
+          "type": "dropdown",
+          "required": false,
+          "data": [
+            {
+              "title": "Safari",
+              "value": "safari"
+            },
+            {
+              "title": "Google Chrome",
+              "value": "chrome"
+            }
+          ]
+        },
+        {
+          "name": "tabBehavior",
+          "title": "Tab Behavior",
+          "description": "Choose whether to open a new tab or reuse existing tabs",
+          "type": "dropdown",
+          "required": false,
+          "default": "reuse",
+          "data": [
+            {
+              "title": "Reuse existing tabs",
+              "value": "reuse"
+            },
+            {
+              "title": "Always open new tab",
+              "value": "new"
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "quick_response",
       "title": "Quick Response",
-      "description": "Open ChatGPT with selected text and prompt for a quick response",
-      "mode": "no-view"
+      "description": "Send selected text to AI platform for a quick, short response",
+      "mode": "no-view",
+      "preferences": [
+        {
+          "name": "aiPlatform",
+          "title": "AI Platform",
+          "description": "Choose which AI platform to use",
+          "type": "dropdown",
+          "required": false,
+          "default": "chatgpt",
+          "data": [
+            {
+              "title": "ChatGPT",
+              "value": "chatgpt"
+            },
+            {
+              "title": "Claude",
+              "value": "claude"
+            },
+            {
+              "title": "Custom URL",
+              "value": "custom"
+            }
+          ]
+        },
+        {
+          "name": "customUrl",
+          "title": "Custom AI URL",
+          "description": "URL for custom AI platform (only used if 'Custom URL' is selected)",
+          "type": "textfield",
+          "required": false,
+          "default": "https://chat.openai.com/"
+        },
+        {
+          "name": "customSelector",
+          "title": "Custom AI Selector",
+          "description": "CSS selector for the input field of custom AI platform",
+          "type": "textfield",
+          "required": false,
+          "default": "textarea"
+        },
+        {
+          "name": "browser",
+          "title": "Browser",
+          "description": "Choose which browser to use (overrides global default)",
+          "type": "dropdown",
+          "required": false,
+          "data": [
+            {
+              "title": "Safari",
+              "value": "safari"
+            },
+            {
+              "title": "Google Chrome",
+              "value": "chrome"
+            }
+          ]
+        },
+        {
+          "name": "tabBehavior",
+          "title": "Tab Behavior",
+          "description": "Choose whether to open a new tab or reuse existing tabs",
+          "type": "dropdown",
+          "required": false,
+          "default": "reuse",
+          "data": [
+            {
+              "title": "Reuse existing tabs",
+              "value": "reuse"
+            },
+            {
+              "title": "Always open new tab",
+              "value": "new"
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "paraphrase",
       "title": "Paraphrase",
-      "description": "Paraphrase the selected text",
-      "mode": "no-view"
+      "description": "Paraphrase the selected text using AI platform of choice",
+      "mode": "no-view",
+      "preferences": [
+        {
+          "name": "aiPlatform",
+          "title": "AI Platform",
+          "description": "Choose which AI platform to use",
+          "type": "dropdown",
+          "required": false,
+          "default": "chatgpt",
+          "data": [
+            {
+              "title": "ChatGPT",
+              "value": "chatgpt"
+            },
+            {
+              "title": "Claude",
+              "value": "claude"
+            },
+            {
+              "title": "Custom URL",
+              "value": "custom"
+            }
+          ]
+        },
+        {
+          "name": "customUrl",
+          "title": "Custom AI URL",
+          "description": "URL for custom AI platform (only used if 'Custom URL' is selected)",
+          "type": "textfield",
+          "required": false,
+          "default": "https://chat.openai.com/"
+        },
+        {
+          "name": "customSelector",
+          "title": "Custom AI Selector",
+          "description": "CSS selector for the input field of custom AI platform",
+          "type": "textfield",
+          "required": false,
+          "default": "textarea"
+        },
+        {
+          "name": "browser",
+          "title": "Browser",
+          "description": "Choose which browser to use (overrides global default)",
+          "type": "dropdown",
+          "required": false,
+          "data": [
+            {
+              "title": "Safari",
+              "value": "safari"
+            },
+            {
+              "title": "Google Chrome",
+              "value": "chrome"
+            }
+          ]
+        },
+        {
+          "name": "tabBehavior",
+          "title": "Tab Behavior",
+          "description": "Choose whether to open a new tab or reuse existing tabs",
+          "type": "dropdown",
+          "required": false,
+          "default": "reuse",
+          "data": [
+            {
+              "title": "Reuse existing tabs",
+              "value": "reuse"
+            },
+            {
+              "title": "Always open new tab",
+              "value": "new"
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "googleSearch",
@@ -654,8 +943,83 @@
     {
       "name": "refine-search",
       "title": "Refine Google Search",
-      "description": "Refine your Google search query using ChatGPT",
-      "mode": "no-view"
+      "description": "Refine your Google search query using AI platform of choice",
+      "mode": "no-view",
+      "preferences": [
+        {
+          "name": "aiPlatform",
+          "title": "AI Platform",
+          "description": "Choose which AI platform to use",
+          "type": "dropdown",
+          "required": false,
+          "default": "chatgpt",
+          "data": [
+            {
+              "title": "ChatGPT",
+              "value": "chatgpt"
+            },
+            {
+              "title": "Claude",
+              "value": "claude"
+            },
+            {
+              "title": "Custom URL",
+              "value": "custom"
+            }
+          ]
+        },
+        {
+          "name": "customUrl",
+          "title": "Custom AI URL",
+          "description": "URL for custom AI platform (only used if 'Custom URL' is selected)",
+          "type": "textfield",
+          "required": false,
+          "default": "https://chat.openai.com/"
+        },
+        {
+          "name": "customSelector",
+          "title": "Custom AI Selector",
+          "description": "CSS selector for the input field of custom AI platform",
+          "type": "textfield",
+          "required": false,
+          "default": "textarea"
+        },
+        {
+          "name": "browser",
+          "title": "Browser",
+          "description": "Choose which browser to use (overrides global default)",
+          "type": "dropdown",
+          "required": false,
+          "data": [
+            {
+              "title": "Safari",
+              "value": "safari"
+            },
+            {
+              "title": "Google Chrome",
+              "value": "chrome"
+            }
+          ]
+        },
+        {
+          "name": "tabBehavior",
+          "title": "Tab Behavior",
+          "description": "Choose whether to open a new tab or reuse existing tabs",
+          "type": "dropdown",
+          "required": false,
+          "default": "reuse",
+          "data": [
+            {
+              "title": "Reuse existing tabs",
+              "value": "reuse"
+            },
+            {
+              "title": "Always open new tab",
+              "value": "new"
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "refineYoutubeSearch",
@@ -672,8 +1036,83 @@
     {
       "name": "codeExplainer",
       "title": "Code Explainer",
-      "description": "Explain the selected code",
-      "mode": "no-view"
+      "description": "Explain the selected code using AI platform of choice",
+      "mode": "no-view",
+      "preferences": [
+        {
+          "name": "aiPlatform",
+          "title": "AI Platform",
+          "description": "Choose which AI platform to use",
+          "type": "dropdown",
+          "required": false,
+          "default": "chatgpt",
+          "data": [
+            {
+              "title": "ChatGPT",
+              "value": "chatgpt"
+            },
+            {
+              "title": "Claude",
+              "value": "claude"
+            },
+            {
+              "title": "Custom URL",
+              "value": "custom"
+            }
+          ]
+        },
+        {
+          "name": "customUrl",
+          "title": "Custom AI URL",
+          "description": "URL for custom AI platform (only used if 'Custom URL' is selected)",
+          "type": "textfield",
+          "required": false,
+          "default": "https://chat.openai.com/"
+        },
+        {
+          "name": "customSelector",
+          "title": "Custom AI Selector",
+          "description": "CSS selector for the input field of custom AI platform",
+          "type": "textfield",
+          "required": false,
+          "default": "textarea"
+        },
+        {
+          "name": "browser",
+          "title": "Browser",
+          "description": "Choose which browser to use (overrides global default)",
+          "type": "dropdown",
+          "required": false,
+          "data": [
+            {
+              "title": "Safari",
+              "value": "safari"
+            },
+            {
+              "title": "Google Chrome",
+              "value": "chrome"
+            }
+          ]
+        },
+        {
+          "name": "tabBehavior",
+          "title": "Tab Behavior",
+          "description": "Choose whether to open a new tab or reuse existing tabs",
+          "type": "dropdown",
+          "required": false,
+          "default": "reuse",
+          "data": [
+            {
+              "title": "Reuse existing tabs",
+              "value": "reuse"
+            },
+            {
+              "title": "Always open new tab",
+              "value": "new"
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "emailComposer",
@@ -688,6 +1127,79 @@
           "type": "textfield",
           "default": "Draft an email based on the selected text: \n\n",
           "required": false
+        },
+        {
+          "name": "aiPlatform",
+          "title": "AI Platform",
+          "description": "Choose which AI platform to use",
+          "type": "dropdown",
+          "required": false,
+          "default": "chatgpt",
+          "data": [
+            {
+              "title": "ChatGPT",
+              "value": "chatgpt"
+            },
+            {
+              "title": "Claude",
+              "value": "claude"
+            },
+            {
+              "title": "Custom URL",
+              "value": "custom"
+            }
+          ]
+        },
+        {
+          "name": "customUrl",
+          "title": "Custom AI URL",
+          "description": "URL for custom AI platform (only used if 'Custom URL' is selected)",
+          "type": "textfield",
+          "required": false,
+          "default": "https://chat.openai.com/"
+        },
+        {
+          "name": "customSelector",
+          "title": "Custom AI Selector",
+          "description": "CSS selector for the input field of custom AI platform",
+          "type": "textfield",
+          "required": false,
+          "default": "textarea"
+        },
+        {
+          "name": "browser",
+          "title": "Browser",
+          "description": "Choose which browser to use (overrides global default)",
+          "type": "dropdown",
+          "required": false,
+          "data": [
+            {
+              "title": "Safari",
+              "value": "safari"
+            },
+            {
+              "title": "Google Chrome",
+              "value": "chrome"
+            }
+          ]
+        },
+        {
+          "name": "tabBehavior",
+          "title": "Tab Behavior",
+          "description": "Choose whether to open a new tab or reuse existing tabs",
+          "type": "dropdown",
+          "required": false,
+          "default": "reuse",
+          "data": [
+            {
+              "title": "Reuse existing tabs",
+              "value": "reuse"
+            },
+            {
+              "title": "Always open new tab",
+              "value": "new"
+            }
+          ]
         }
       ]
     },
@@ -753,6 +1265,79 @@
           "type": "textfield",
           "default": "give the answer in the beginning and the reason in the end, keep it simple and concise, no fluff, no extra words, just the facts: \n\n",
           "required": false
+        },
+        {
+          "name": "aiPlatform",
+          "title": "AI Platform",
+          "description": "Choose which AI platform to use",
+          "type": "dropdown",
+          "required": false,
+          "default": "chatgpt",
+          "data": [
+            {
+              "title": "ChatGPT",
+              "value": "chatgpt"
+            },
+            {
+              "title": "Claude",
+              "value": "claude"
+            },
+            {
+              "title": "Custom URL",
+              "value": "custom"
+            }
+          ]
+        },
+        {
+          "name": "customUrl",
+          "title": "Custom AI URL",
+          "description": "URL for custom AI platform (only used if 'Custom URL' is selected)",
+          "type": "textfield",
+          "required": false,
+          "default": "https://chat.openai.com/"
+        },
+        {
+          "name": "customSelector",
+          "title": "Custom AI Selector",
+          "description": "CSS selector for the input field of custom AI platform",
+          "type": "textfield",
+          "required": false,
+          "default": "textarea"
+        },
+        {
+          "name": "browser",
+          "title": "Browser",
+          "description": "Choose which browser to use (overrides global default)",
+          "type": "dropdown",
+          "required": false,
+          "data": [
+            {
+              "title": "Safari",
+              "value": "safari"
+            },
+            {
+              "title": "Google Chrome",
+              "value": "chrome"
+            }
+          ]
+        },
+        {
+          "name": "tabBehavior",
+          "title": "Tab Behavior",
+          "description": "Choose whether to open a new tab or reuse existing tabs",
+          "type": "dropdown",
+          "required": false,
+          "default": "reuse",
+          "data": [
+            {
+              "title": "Reuse existing tabs",
+              "value": "reuse"
+            },
+            {
+              "title": "Always open new tab",
+              "value": "new"
+            }
+          ]
         }
       ]
     },
@@ -1056,6 +1641,7 @@
     }
   ],
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.77.0",
     "@nem035/gpt-3-encoder": "^1.1.7",
     "@raycast/api": "^1.50.0",
     "chrono-node": "^2.7.7",
@@ -1065,56 +1651,68 @@
   },
   "preferences": [
     {
-      "name": "apikey",
-      "description": "Your OpenAI API Key",
-      "type": "password",
+      "name": "apiProvider",
+      "title": "API Provider",
+      "description": "Choose which AI provider to use for API-based commands",
+      "type": "dropdown",
       "required": true,
+      "default": "openai",
+      "data": [
+        { "title": "OpenAI", "value": "openai" },
+        { "title": "Anthropic (Claude)", "value": "anthropic" },
+        { "title": "Ollama (Local)", "value": "ollama" }
+      ]
+    },
+    {
+      "name": "apikey",
+      "description": "Your OpenAI API Key (required for OpenAI provider)",
+      "type": "password",
+      "required": false,
       "title": "OpenAI API Key"
     },
     {
+      "name": "anthropicApiKey",
+      "description": "Your Anthropic API Key (required for Anthropic provider)",
+      "type": "password",
+      "required": false,
+      "title": "Anthropic API Key"
+    },
+    {
       "name": "model",
-      "description": "OpenAI LLM to use for your commands",
+      "description": "Model to use for API commands. For OpenAI: GPT-5.x/4.1.x. For Anthropic: Claude models. For Ollama: set model name below.",
       "type": "dropdown",
       "data": [
-        {
-          "title": "GPT-5.2",
-          "value": "gpt-5.2"
-        },
-        {
-          "title": "GPT-5.1",
-          "value": "gpt-5.1"
-        },
-        {
-          "title": "GPT-5.1 Codex",
-          "value": "gpt-5.1-codex"
-        },
-        {
-          "title": "GPT-5",
-          "value": "gpt-5"
-        },
-        {
-          "title": "GPT-5 mini",
-          "value": "gpt-5-mini"
-        },
-        {
-          "title": "GPT-5 nano",
-          "value": "gpt-5-nano"
-        },
-        {
-          "title": "GPT-4.1",
-          "value": "gpt-4.1"
-        },
-        {
-          "title": "GPT-4.1 mini",
-          "value": "gpt-4.1-mini"
-        },
-        {
-          "title": "GPT-4.1 nano",
-          "value": "gpt-4.1-nano"
-        }
+        { "title": "GPT-5.2", "value": "gpt-5.2" },
+        { "title": "GPT-5.1", "value": "gpt-5.1" },
+        { "title": "GPT-5.1 Codex", "value": "gpt-5.1-codex" },
+        { "title": "GPT-5", "value": "gpt-5" },
+        { "title": "GPT-5 mini", "value": "gpt-5-mini" },
+        { "title": "GPT-5 nano", "value": "gpt-5-nano" },
+        { "title": "GPT-4.1", "value": "gpt-4.1" },
+        { "title": "GPT-4.1 mini", "value": "gpt-4.1-mini" },
+        { "title": "GPT-4.1 nano", "value": "gpt-4.1-nano" },
+        { "title": "Claude Opus 4.6", "value": "claude-opus-4-6" },
+        { "title": "Claude Sonnet 4.6", "value": "claude-sonnet-4-6" },
+        { "title": "Claude Haiku 4.5", "value": "claude-haiku-4-5" }
       ],
       "required": true,
-      "title": "OpenAI Model"
+      "title": "Model"
+    },
+    {
+      "name": "ollamaEndpoint",
+      "title": "Ollama Endpoint",
+      "description": "URL for Ollama server (only used with Ollama provider)",
+      "type": "textfield",
+      "required": false,
+      "default": "http://localhost:11434"
+    },
+    {
+      "name": "ollamaModel",
+      "title": "Ollama Model",
+      "description": "Model name for Ollama (e.g., llama3, mistral, codellama)",
+      "type": "textfield",
+      "required": false,
+      "default": "llama3"
     },
     {
       "name": "defaultBrowser",
@@ -1135,6 +1733,18 @@
       ]
     },
     {
+      "name": "outputMode",
+      "title": "Output Mode",
+      "description": "Choose how to receive AI results for API-based commands",
+      "type": "dropdown",
+      "required": false,
+      "default": "preview",
+      "data": [
+        { "title": "Preview (show in window)", "value": "preview" },
+        { "title": "Paste directly", "value": "paste" }
+      ]
+    },
+    {
       "name": "sidenote",
       "title": "SideNote Integration",
       "description": "Enable SideNote integration (requires SideNote). Allows you to send the results to SideNote as a new note.",
@@ -1142,13 +1752,6 @@
       "type": "checkbox",
       "default": false,
       "required": false
-    },
-    {
-      "name": "gitRepoPath",
-      "type": "directory",
-      "required": false,
-      "title": "Git Repository Path",
-      "description": "Path to your main git repository"
     }
   ],
   "devDependencies": {

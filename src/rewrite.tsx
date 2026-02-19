@@ -1,10 +1,9 @@
 import { getPreferenceValues } from "@raycast/api";
 import ResultView from "./common";
 
-const prompt = getPreferenceValues().prompt_rewrite;
-const model_override = getPreferenceValues().model_rewrite;
+const pref = getPreferenceValues<{ prompt_rewrite: string; model_rewrite: string; tone?: string }>();
 const toast_title = "Rewriting...";
 
 export default function Rewrite() {
-  return ResultView(prompt, model_override, toast_title);
+  return ResultView(pref.prompt_rewrite, pref.model_rewrite, toast_title, pref.tone);
 }

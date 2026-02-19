@@ -1,10 +1,9 @@
 import { getPreferenceValues } from "@raycast/api";
 import ResultView from "./common";
 
-const prompt = getPreferenceValues().prompt_custom;
-const model_override = getPreferenceValues().model_custom;
+const pref = getPreferenceValues<{ prompt_custom: string; model_custom: string; tone?: string }>();
 const toast_title = "Thinking...";
 
 export default function CustomAction() {
-  return ResultView(prompt, model_override, toast_title);
+  return ResultView(pref.prompt_custom, pref.model_custom, toast_title, pref.tone);
 }

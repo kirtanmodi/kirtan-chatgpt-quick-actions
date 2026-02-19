@@ -1,6 +1,8 @@
-import { getSelectedText, showHUD, Clipboard, showToast, Toast, Action } from "@raycast/api";
+import { getSelectedText, showHUD, Clipboard, showToast, Toast } from "@raycast/api";
 import { runAppleScript } from "run-applescript";
-import { openai } from "./api";
+import { apiProvider, createCompletion, getModel } from "./api";
+
+const model = getModel("global");
 
 export default async function Command() {
   const toast = await showToast({
@@ -9,10 +11,8 @@ export default async function Command() {
   });
 
   try {
-    // Get the selected text
     let selectedText = await getSelectedText();
 
-    // If no text is selected, check the clipboard
     if (!selectedText) {
       const { text } = await Clipboard.read();
       if (text) {
@@ -24,17 +24,12 @@ export default async function Command() {
       }
     }
 
-    // Refine the search query using OpenAI
     toast.title = "Refining search query...";
     const refinedQuery = await refineSearchQuery(selectedText, toast);
 
-    // Update toast message
     toast.title = "Opening refined search...";
-
-    // Perform yt search with the refined query
     await youtubeSearch(refinedQuery);
 
-    // Hide the toast and show a success HUD
     toast.hide();
     await showHUD("Refined YT search opened in Safari.");
   } catch (error) {
@@ -46,19 +41,13 @@ export default async function Command() {
 }
 
 async function refineSearchQuery(query: string, toast: Toast): Promise<string> {
-  // const prompt = `Refine this YouTube search query to get the best results: "${query}". Only provide the refined query, nothing else.`;
   const prompt = `I want to search for ${query}. Help me refine this YouTube search query by focusing on [key points or purpose, e.g., accuracy, up-to-date information, or specific sources]. Exclude [any irrelevant terms or websites], and include results from [specific sites, if any]. Provide a search query I can use to get the best results, only give me the query and nothing else`;
-  toast.message = "Connecting to OpenAI...";
+  toast.message = `Connecting to ${apiProvider}...`;
 
   try {
-    const response = await openai.chat.completions.create({
-      model: "gpt-4o",
-      messages: [{ role: "user", content: prompt }],
-    });
-
+    const result = await createCompletion(model, prompt);
     toast.message = "Processing refined query...";
-
-    return response.choices[0]?.message?.content?.trim() || query;
+    return result || query;
   } catch (error) {
     console.error("Error in refineSearchQuery:", error);
     toast.style = Toast.Style.Failure;
