@@ -12,7 +12,7 @@ const prefs = getPreferenceValues<{
 }>();
 
 export const apiProvider = prefs.apiProvider || "openai";
-export const global_model = prefs.model;
+export const global_model = prefs.model || "gpt-6-luna";
 
 // OpenAI client
 export const openai = new OpenAI({
@@ -46,9 +46,13 @@ function getOllama(): OpenAI {
 
 // Unified model resolver
 export function getModel(model_override: string): string {
-  if (model_override && model_override !== "global") return model_override;
   if (apiProvider === "ollama") return ollamaModel;
-  return global_model;
+
+  const selectedModel = model_override && model_override !== "global" ? model_override : global_model;
+  if (apiProvider === "anthropic") {
+    return selectedModel.startsWith("claude-") ? selectedModel : "claude-haiku-4-5";
+  }
+  return selectedModel.startsWith("claude-") ? "gpt-6-luna" : selectedModel;
 }
 
 // Unified streaming interface

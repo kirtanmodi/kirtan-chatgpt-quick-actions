@@ -17,6 +17,8 @@ npm run fix-lint     # ray lint --fix
 
 No test framework is configured. Verify changes via `npm run lint` and `npm run build`.
 
+Use Node >=22.22.2 for `@raycast/api` 2.5.3 and install with `npm ci`. Rerun `npm run dev` after manifest changes to refresh Raycast's preferences; Ctrl+C stops the watcher while keeping the extension installed. Stop development after verification. Obtain approval for the expected cost before a live, potentially billed API request.
+
 ## Architecture
 
 ### Command Patterns
@@ -44,7 +46,7 @@ Every command exports a default function/component from `src/`. Commands are reg
 | File | Purpose |
 |---|---|
 | `src/api.ts` | Multi-provider API layer. Exports `createStream()`, `createCompletion()`, `getModel()`, `apiProvider`. Supports OpenAI, Anthropic SDK, and Ollama (via OpenAI SDK pointed at Ollama's `/v1` endpoint). |
-| `src/common.tsx` | `ResultView` — streaming response component with retry, tone injection, paste-in-place mode, token counting, cost estimation, SideNote integration |
+| `src/common.tsx` | `ResultView` — streaming response, retry, tone, paste mode, manual text fallback, token/cost estimates, SideNote integration |
 | `src/ai_platform_utils.ts` | Browser automation: open/reuse tabs, focus text areas, paste+send via AppleScript. Supports Safari & Chrome. |
 | `src/util.ts` | Token counting (`@nem035/gpt-3-encoder`), `MODEL_PRICING` lookup table for cost estimation, AppleScript helpers |
 
@@ -53,17 +55,23 @@ Every command exports a default function/component from `src/`. Commands are reg
 - **`apiProvider`** global preference: `"openai"` | `"anthropic"` | `"ollama"`
 - **`createStream(model, systemPrompt, userMessage)`** — async generator yielding `{ text, done }` chunks. Routes to Anthropic SDK `.messages.stream()` or OpenAI SDK `.chat.completions.create({ stream: true })` based on provider.
 - **`createCompletion(model, userMessage)`** — non-streaming, returns `string`. Used by `execute.ts`, `transform.tsx`, search refinement commands.
-- **`getModel(model_override)`** — resolves `"global"` to the configured default model (or Ollama model name for Ollama provider).
+- **`getModel(model_override)`** — uses the command override unless it is empty or `"global"`, then uses the saved global choice (default `gpt-6-luna`). OpenAI falls back to Luna for a Claude choice; Anthropic falls back to `claude-haiku-4-5` for a non-Claude choice. Ollama always uses its own model preference.
 - Ollama uses OpenAI SDK with `baseURL: "${ollamaEndpoint}/v1"` — no raw `fetch()`.
 
 ### Preferences System
 
 - **Global preferences** (in root `preferences[]` of `package.json`): API provider, API keys (OpenAI, Anthropic), Ollama endpoint/model, default model, default browser, output mode, SideNote toggle
 - **Per-command preferences** (in each command's `preferences[]`): custom prompt text, model override (defaults to `"global"`), tone (for text-transform commands)
-- Model dropdown lists are duplicated across every command's preferences in `package.json` — when adding a new model, update the global dropdown AND every command's `model_*` dropdown
-- Model dropdowns include both OpenAI and Claude models; the active provider determines which are usable
-- Current OpenAI models: `gpt-5.2`, `gpt-5.1`, `gpt-5.1-codex`, `gpt-5`, `gpt-5-mini`, `gpt-5-nano`, `gpt-4.1`, `gpt-4.1-mini`, `gpt-4.1-nano`
-- Current Claude models: `claude-opus-4-6`, `claude-sonnet-4-6`, `claude-haiku-4-5`
+- Model dropdowns are static and duplicated in `package.json`. Add a new choice to the global dropdown and all eight `model_*` dropdowns: summarize, rewrite, refine, custom, execute, preview, transform, transform_preview. Update `MODEL_PRICING`, README, and the handover PDF together. Existing older Claude choices are global-only.
+- Preserve saved preferences: a new manifest default does not replace a user's saved model. Provider compatibility is handled by `getModel()`.
+- The current model catalog is listed in README; do not promise automatic discovery or a forever-cheapest model. Check official provider IDs, endpoint support, prices, and account access before updating it.
+
+### Result Input and Retry
+
+- `ResultView` rejects missing/blank selected text before an API request. Its **Type Text Instead** form works in preview and paste modes; it does not apply to no-view execute/transform commands.
+- Manual text is stored in the view and reused on retry. Selected-text retries read the selection again.
+- Pass the requested model directly into `getResult()` when switching models; React state updates are asynchronous.
+- OpenAI's GPT-6.1 Sol retry switches the model for the current view. It is a paid request and costs more than the Luna default.
 
 ### Tone/Style System
 
@@ -74,8 +82,14 @@ Every command exports a default function/component from `src/`. Commands are reg
 ### Pricing (`src/util.ts`)
 
 - `MODEL_PRICING` lookup object: `Record<string, [input_per_1M, output_per_1M]>` in dollars
-- Covers GPT-5.x, GPT-4.1, GPT-4o, legacy GPT-4/3.5, and Claude Opus/Sonnet/Haiku
-- Returns `-1` for unknown models (e.g., Ollama local models)
+- Covers recent GPT-6 and Claude models plus older entries. Check official prices and keep the source/check date near the table.
+- `estimatePrice()` returns cents rounded to three decimals, or `-1` for unknown models (including unlisted Ollama names).
+- Counts use `@nem035/gpt-3-encoder` on visible text. These are estimates, not API usage or billing; hidden reasoning, caching, tiers, and provider tokenizers are not represented.
+- Missing text displays zero; failed requests display Unknown. Accumulate tokens only on completion and costs only for completed requests with known prices, using functional React state updates. Totals reset when the view closes.
+
+### Handover Document
+
+- `docs/build_handover.py` is the editable source for `docs/ai-models-handover.pdf`. Requires Python `reportlab`; regenerate after feature changes and visually inspect the PDF pages.
 
 ### AI Platforms (Browser Automation)
 

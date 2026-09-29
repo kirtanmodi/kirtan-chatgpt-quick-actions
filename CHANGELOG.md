@@ -1,5 +1,14 @@
 # ChatGPT Quick Actions Changelog
 
+## [Raycast compatibility and model defaults] - 2026-09-30
+
+- Upgrade Raycast API to 2.5.3, React/Node types, and TypeScript for current Raycast builds.
+- Default OpenAI to GPT-6 Luna, add recent OpenAI/Claude choices, and resolve incompatible provider/model selections.
+- Add manual input when streaming commands cannot read selected text; preserve manual input on retries.
+- Use GPT-6.1 Sol for the optional OpenAI retry and pass its model directly into the request.
+- Update price estimates, prevent missing-text errors from adding costs, and label failed request costs Unknown.
+- Add setup, maintenance, and PDF handover documentation. Model catalogs still require manual updates.
+
 ## [Add Transform and Transform Preview commands] - 2024-09-18
 
 - Add a Transform command which replaces the selected text with transformed text based on a prompt that is entered when the command is run.

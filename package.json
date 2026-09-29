@@ -41,6 +41,22 @@
               "value": "global"
             },
             {
+              "title": "GPT-6 Luna (Low Cost)",
+              "value": "gpt-6-luna"
+            },
+            {
+              "title": "GPT-6.1 Sol",
+              "value": "gpt-6.1-sol"
+            },
+            {
+              "title": "GPT-6 Sol",
+              "value": "gpt-6-sol"
+            },
+            {
+              "title": "GPT-6 Astra",
+              "value": "gpt-6-astra"
+            },
+            {
               "title": "GPT-5.2",
               "value": "gpt-5.2"
             },
@@ -75,6 +91,22 @@
             {
               "title": "GPT-4.1 nano",
               "value": "gpt-4.1-nano"
+            },
+            {
+              "title": "Claude Haiku 4.5 (Lowest Cost Claude)",
+              "value": "claude-haiku-4-5"
+            },
+            {
+              "title": "Claude Sonnet 5.5",
+              "value": "claude-sonnet-5-5"
+            },
+            {
+              "title": "Claude Opus 5.5",
+              "value": "claude-opus-5-5"
+            },
+            {
+              "title": "Claude Fable 5.1",
+              "value": "claude-fable-5-1"
             }
           ]
         },
@@ -123,6 +155,22 @@
               "value": "global"
             },
             {
+              "title": "GPT-6 Luna (Low Cost)",
+              "value": "gpt-6-luna"
+            },
+            {
+              "title": "GPT-6.1 Sol",
+              "value": "gpt-6.1-sol"
+            },
+            {
+              "title": "GPT-6 Sol",
+              "value": "gpt-6-sol"
+            },
+            {
+              "title": "GPT-6 Astra",
+              "value": "gpt-6-astra"
+            },
+            {
               "title": "GPT-5.2",
               "value": "gpt-5.2"
             },
@@ -157,6 +205,22 @@
             {
               "title": "GPT-4.1 nano",
               "value": "gpt-4.1-nano"
+            },
+            {
+              "title": "Claude Haiku 4.5 (Lowest Cost Claude)",
+              "value": "claude-haiku-4-5"
+            },
+            {
+              "title": "Claude Sonnet 5.5",
+              "value": "claude-sonnet-5-5"
+            },
+            {
+              "title": "Claude Opus 5.5",
+              "value": "claude-opus-5-5"
+            },
+            {
+              "title": "Claude Fable 5.1",
+              "value": "claude-fable-5-1"
             }
           ]
         },
@@ -205,6 +269,22 @@
               "value": "global"
             },
             {
+              "title": "GPT-6 Luna (Low Cost)",
+              "value": "gpt-6-luna"
+            },
+            {
+              "title": "GPT-6.1 Sol",
+              "value": "gpt-6.1-sol"
+            },
+            {
+              "title": "GPT-6 Sol",
+              "value": "gpt-6-sol"
+            },
+            {
+              "title": "GPT-6 Astra",
+              "value": "gpt-6-astra"
+            },
+            {
               "title": "GPT-5.2",
               "value": "gpt-5.2"
             },
@@ -239,6 +319,22 @@
             {
               "title": "GPT-4.1 nano",
               "value": "gpt-4.1-nano"
+            },
+            {
+              "title": "Claude Haiku 4.5 (Lowest Cost Claude)",
+              "value": "claude-haiku-4-5"
+            },
+            {
+              "title": "Claude Sonnet 5.5",
+              "value": "claude-sonnet-5-5"
+            },
+            {
+              "title": "Claude Opus 5.5",
+              "value": "claude-opus-5-5"
+            },
+            {
+              "title": "Claude Fable 5.1",
+              "value": "claude-fable-5-1"
             }
           ]
         },
@@ -287,6 +383,22 @@
               "value": "global"
             },
             {
+              "title": "GPT-6 Luna (Low Cost)",
+              "value": "gpt-6-luna"
+            },
+            {
+              "title": "GPT-6.1 Sol",
+              "value": "gpt-6.1-sol"
+            },
+            {
+              "title": "GPT-6 Sol",
+              "value": "gpt-6-sol"
+            },
+            {
+              "title": "GPT-6 Astra",
+              "value": "gpt-6-astra"
+            },
+            {
               "title": "GPT-5.2",
               "value": "gpt-5.2"
             },
@@ -321,6 +433,22 @@
             {
               "title": "GPT-4.1 nano",
               "value": "gpt-4.1-nano"
+            },
+            {
+              "title": "Claude Haiku 4.5 (Lowest Cost Claude)",
+              "value": "claude-haiku-4-5"
+            },
+            {
+              "title": "Claude Sonnet 5.5",
+              "value": "claude-sonnet-5-5"
+            },
+            {
+              "title": "Claude Opus 5.5",
+              "value": "claude-opus-5-5"
+            },
+            {
+              "title": "Claude Fable 5.1",
+              "value": "claude-fable-5-1"
             }
           ]
         },
@@ -361,6 +489,22 @@
               "value": "global"
             },
             {
+              "title": "GPT-6 Luna (Low Cost)",
+              "value": "gpt-6-luna"
+            },
+            {
+              "title": "GPT-6.1 Sol",
+              "value": "gpt-6.1-sol"
+            },
+            {
+              "title": "GPT-6 Sol",
+              "value": "gpt-6-sol"
+            },
+            {
+              "title": "GPT-6 Astra",
+              "value": "gpt-6-astra"
+            },
+            {
               "title": "GPT-5.2",
               "value": "gpt-5.2"
             },
@@ -395,6 +539,22 @@
             {
               "title": "GPT-4.1 nano",
               "value": "gpt-4.1-nano"
+            },
+            {
+              "title": "Claude Haiku 4.5 (Lowest Cost Claude)",
+              "value": "claude-haiku-4-5"
+            },
+            {
+              "title": "Claude Sonnet 5.5",
+              "value": "claude-sonnet-5-5"
+            },
+            {
+              "title": "Claude Opus 5.5",
+              "value": "claude-opus-5-5"
+            },
+            {
+              "title": "Claude Fable 5.1",
+              "value": "claude-fable-5-1"
             }
           ]
         }
@@ -419,6 +579,22 @@
               "value": "global"
             },
             {
+              "title": "GPT-6 Luna (Low Cost)",
+              "value": "gpt-6-luna"
+            },
+            {
+              "title": "GPT-6.1 Sol",
+              "value": "gpt-6.1-sol"
+            },
+            {
+              "title": "GPT-6 Sol",
+              "value": "gpt-6-sol"
+            },
+            {
+              "title": "GPT-6 Astra",
+              "value": "gpt-6-astra"
+            },
+            {
               "title": "GPT-5.2",
               "value": "gpt-5.2"
             },
@@ -453,6 +629,22 @@
             {
               "title": "GPT-4.1 nano",
               "value": "gpt-4.1-nano"
+            },
+            {
+              "title": "Claude Haiku 4.5 (Lowest Cost Claude)",
+              "value": "claude-haiku-4-5"
+            },
+            {
+              "title": "Claude Sonnet 5.5",
+              "value": "claude-sonnet-5-5"
+            },
+            {
+              "title": "Claude Opus 5.5",
+              "value": "claude-opus-5-5"
+            },
+            {
+              "title": "Claude Fable 5.1",
+              "value": "claude-fable-5-1"
             }
           ]
         }
@@ -485,6 +677,22 @@
               "value": "global"
             },
             {
+              "title": "GPT-6 Luna (Low Cost)",
+              "value": "gpt-6-luna"
+            },
+            {
+              "title": "GPT-6.1 Sol",
+              "value": "gpt-6.1-sol"
+            },
+            {
+              "title": "GPT-6 Sol",
+              "value": "gpt-6-sol"
+            },
+            {
+              "title": "GPT-6 Astra",
+              "value": "gpt-6-astra"
+            },
+            {
               "title": "GPT-5.2",
               "value": "gpt-5.2"
             },
@@ -519,6 +727,22 @@
             {
               "title": "GPT-4.1 nano",
               "value": "gpt-4.1-nano"
+            },
+            {
+              "title": "Claude Haiku 4.5 (Lowest Cost Claude)",
+              "value": "claude-haiku-4-5"
+            },
+            {
+              "title": "Claude Sonnet 5.5",
+              "value": "claude-sonnet-5-5"
+            },
+            {
+              "title": "Claude Opus 5.5",
+              "value": "claude-opus-5-5"
+            },
+            {
+              "title": "Claude Fable 5.1",
+              "value": "claude-fable-5-1"
             }
           ]
         }
@@ -551,6 +775,22 @@
               "value": "global"
             },
             {
+              "title": "GPT-6 Luna (Low Cost)",
+              "value": "gpt-6-luna"
+            },
+            {
+              "title": "GPT-6.1 Sol",
+              "value": "gpt-6.1-sol"
+            },
+            {
+              "title": "GPT-6 Sol",
+              "value": "gpt-6-sol"
+            },
+            {
+              "title": "GPT-6 Astra",
+              "value": "gpt-6-astra"
+            },
+            {
               "title": "GPT-5.2",
               "value": "gpt-5.2"
             },
@@ -585,6 +825,22 @@
             {
               "title": "GPT-4.1 nano",
               "value": "gpt-4.1-nano"
+            },
+            {
+              "title": "Claude Haiku 4.5 (Lowest Cost Claude)",
+              "value": "claude-haiku-4-5"
+            },
+            {
+              "title": "Claude Sonnet 5.5",
+              "value": "claude-sonnet-5-5"
+            },
+            {
+              "title": "Claude Opus 5.5",
+              "value": "claude-opus-5-5"
+            },
+            {
+              "title": "Claude Fable 5.1",
+              "value": "claude-fable-5-1"
             }
           ]
         }
@@ -1643,7 +1899,7 @@
   "dependencies": {
     "@anthropic-ai/sdk": "^0.77.0",
     "@nem035/gpt-3-encoder": "^1.1.7",
-    "@raycast/api": "^1.50.0",
+    "@raycast/api": "^2.5.3",
     "chrono-node": "^2.7.7",
     "moment-timezone": "^0.5.46",
     "openai": "^4.53.2",
@@ -1679,9 +1935,13 @@
     },
     {
       "name": "model",
-      "description": "Model to use for API commands. For OpenAI: GPT-5.x/4.1.x. For Anthropic: Claude models. For Ollama: set model name below.",
+      "description": "Model for API commands. GPT-6 Luna is the current low-cost OpenAI default; GPT-5 nano has a lower list price but is older. Anthropic and Ollama use their own models.",
       "type": "dropdown",
       "data": [
+        { "title": "GPT-6 Luna (Low Cost)", "value": "gpt-6-luna" },
+        { "title": "GPT-6.1 Sol", "value": "gpt-6.1-sol" },
+        { "title": "GPT-6 Sol", "value": "gpt-6-sol" },
+        { "title": "GPT-6 Astra", "value": "gpt-6-astra" },
         { "title": "GPT-5.2", "value": "gpt-5.2" },
         { "title": "GPT-5.1", "value": "gpt-5.1" },
         { "title": "GPT-5.1 Codex", "value": "gpt-5.1-codex" },
@@ -1691,10 +1951,14 @@
         { "title": "GPT-4.1", "value": "gpt-4.1" },
         { "title": "GPT-4.1 mini", "value": "gpt-4.1-mini" },
         { "title": "GPT-4.1 nano", "value": "gpt-4.1-nano" },
+        { "title": "Claude Haiku 4.5 (Lowest Cost Claude)", "value": "claude-haiku-4-5" },
+        { "title": "Claude Sonnet 5.5", "value": "claude-sonnet-5-5" },
+        { "title": "Claude Opus 5.5", "value": "claude-opus-5-5" },
+        { "title": "Claude Fable 5.1", "value": "claude-fable-5-1" },
         { "title": "Claude Opus 4.6", "value": "claude-opus-4-6" },
-        { "title": "Claude Sonnet 4.6", "value": "claude-sonnet-4-6" },
-        { "title": "Claude Haiku 4.5", "value": "claude-haiku-4-5" }
+        { "title": "Claude Sonnet 4.6", "value": "claude-sonnet-4-6" }
       ],
+      "default": "gpt-6-luna",
       "required": true,
       "title": "Model"
     },
@@ -1756,11 +2020,11 @@
   ],
   "devDependencies": {
     "@raycast/eslint-config": "^1.0.5",
-    "@types/node": "18.8.3",
-    "@types/react": "18.0.9",
+    "@types/node": "^22.19.17",
+    "@types/react": "^19.0.10",
     "eslint": "^7.32.0",
     "prettier": "^2.5.1",
-    "typescript": "^4.4.3"
+    "typescript": "^5.9.3"
   },
   "scripts": {
     "build": "ray build -e dist",

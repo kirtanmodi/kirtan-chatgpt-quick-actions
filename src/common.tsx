@@ -10,6 +10,7 @@ import {
   Clipboard,
   closeMainWindow,
   popToRoot,
+  Form,
 } from "@raycast/api";
 import { useEffect, useState } from "react";
 import { apiProvider, createStream, getModel } from "./api";
@@ -32,31 +33,50 @@ export default function ResultView(prompt: string, model_override: string, toast
   const [loading, setLoading] = useState(true);
   const [cumulative_tokens, setCumulativeTokens] = useState(0);
   const [cumulative_cost, setCumulativeCost] = useState(0);
+  const [requestStatus, setRequestStatus] = useState<"pending" | "completed" | "no-request" | "failed">("pending");
+  const [needsInput, setNeedsInput] = useState(false);
+  const [manualText, setManualText] = useState("");
+  const [lastInputText, setLastInputText] = useState<string | undefined>(undefined);
   const [model, setModel] = useState(getModel(model_override));
 
-  async function getResult() {
+  async function getResult(requestedModel = model, inputText?: string) {
+    setLastInputText(inputText);
+    setPromptTokenCount(0);
+    setResponseTokenCount(0);
+    setRequestStatus("pending");
     const now = new Date();
     let duration = 0;
     const toast = await showToast(Toast.Style.Animated, toast_title);
-    let selectedText = "";
+    let selectedText = inputText || "";
 
-    try {
-      selectedText = await getSelectedText();
-    } catch (error) {
-      toast.title = "Error";
+    if (!inputText) {
+      try {
+        selectedText = await getSelectedText();
+      } catch (error) {
+        toast.title = "No Selected Text";
+        toast.style = Toast.Style.Failure;
+        setRequestStatus("no-request");
+        setLoading(false);
+        setResponse("⚠️ Raycast was unable to get the selected text. Choose Type Text Instead to continue.");
+        return;
+      }
+    }
+
+    if (!selectedText.trim()) {
+      toast.title = "No Selected Text";
       toast.style = Toast.Style.Failure;
+      setRequestStatus("no-request");
       setLoading(false);
-      setResponse(
-        "⚠️ Raycast was unable to get the selected text. You may try copying the text to a text editor and try again."
-      );
+      setResponse("⚠️ No text was selected. Choose Type Text Instead to continue.");
       return;
     }
 
     try {
       const toneInstruction = tone && tone !== "default" ? TONE_INSTRUCTIONS[tone] : "";
       const fullPrompt = toneInstruction ? `${prompt}\n\n${toneInstruction}` : prompt;
-      const stream = createStream(model, fullPrompt, selectedText);
-      setPromptTokenCount(countToken(fullPrompt + selectedText));
+      const stream = createStream(requestedModel, fullPrompt, selectedText);
+      const promptTokens = countToken(fullPrompt + selectedText);
+      setPromptTokenCount(promptTokens);
 
       let response_ = "";
       for await (const part of stream) {
@@ -68,6 +88,12 @@ export default function ResultView(prompt: string, model_override: string, toast
           }
         }
         if (part.done) {
+          const responseTokens = countToken(response_);
+          setResponseTokenCount(responseTokens);
+          setCumulativeTokens((previous) => previous + promptTokens + responseTokens);
+          const estimatedCost = estimatePrice(promptTokens, responseTokens, requestedModel);
+          if (estimatedCost >= 0) setCumulativeCost((previous) => previous + estimatedCost);
+          setRequestStatus("completed");
           if (outputMode === "paste") {
             // Paste directly and close
             await Clipboard.paste(response_);
@@ -94,6 +120,7 @@ export default function ResultView(prompt: string, model_override: string, toast
     } catch (error) {
       toast.title = "Error";
       toast.style = Toast.Style.Failure;
+      setRequestStatus("failed");
       setLoading(false);
       setResponse(
         `⚠️ Failed to get response from AI provider. Please check your network connection and API key. \n\n Error Message: \`\`\`${
@@ -107,26 +134,19 @@ export default function ResultView(prompt: string, model_override: string, toast
   async function retry() {
     setLoading(true);
     setResponse("");
-    getResult();
+    getResult(model, lastInputText);
   }
 
-  async function retryWithGPT5() {
-    setModel("gpt-5");
+  async function retryWithGPT61Sol() {
+    setModel("gpt-6.1-sol");
     setLoading(true);
     setResponse("");
-    getResult();
+    getResult("gpt-6.1-sol", lastInputText);
   }
 
   useEffect(() => {
     getResult();
   }, []);
-
-  useEffect(() => {
-    if (loading == false) {
-      setCumulativeTokens(cumulative_tokens + prompt_token_count + response_token_count);
-      setCumulativeCost(cumulative_cost + estimatePrice(prompt_token_count, response_token_count, model));
-    }
-  }, [loading]);
 
   let sidenote = undefined;
   if (pref.sidenote) {
@@ -142,11 +162,64 @@ export default function ResultView(prompt: string, model_override: string, toast
     );
   }
 
-  const showRetryWithGPT5 = apiProvider === "openai" && model !== "gpt-5";
+  const showRetryWithGPT61Sol = apiProvider === "openai" && model !== "gpt-6.1-sol";
+  const estimatedCost = estimatePrice(prompt_token_count, response_token_count, model);
+  const currentCostText =
+    requestStatus === "completed"
+      ? estimatedCost >= 0
+        ? `${estimatedCost} cents`
+        : "Unknown"
+      : requestStatus === "no-request"
+      ? "0 cents"
+      : "Unknown";
+
+  if (needsInput) {
+    return (
+      <Form
+        actions={
+          <ActionPanel>
+            <Action.SubmitForm
+              title="Send to AI"
+              onSubmit={() => {
+                if (!manualText.trim()) {
+                  showToast(Toast.Style.Failure, "Enter text first");
+                  return;
+                }
+                setNeedsInput(false);
+                setLoading(true);
+                setResponse("");
+                getResult(model, manualText);
+              }}
+            />
+          </ActionPanel>
+        }
+      >
+        <Form.TextArea
+          id="text"
+          title="Text"
+          placeholder="Enter the text to process"
+          value={manualText}
+          onChange={setManualText}
+        />
+      </Form>
+    );
+  }
 
   // In paste mode, show a minimal loading view
   if (outputMode === "paste") {
-    return <Detail markdown={loading ? "Generating response..." : response} isLoading={loading} />;
+    return (
+      <Detail
+        markdown={loading ? "Generating response..." : response}
+        isLoading={loading}
+        actions={
+          requestStatus === "no-request" ? (
+            <ActionPanel>
+              <Action title="Type Text Instead" onAction={() => setNeedsInput(true)} icon={Icon.Pencil} />
+            </ActionPanel>
+          ) : undefined
+        }
+      />
+    );
   }
 
   return (
@@ -156,13 +229,16 @@ export default function ResultView(prompt: string, model_override: string, toast
       actions={
         !loading && (
           <ActionPanel title="Actions">
+            {requestStatus === "no-request" && (
+              <Action title="Type Text Instead" onAction={() => setNeedsInput(true)} icon={Icon.Pencil} />
+            )}
             <Action.CopyToClipboard title="Copy Results" content={response} />
             <Action.Paste title="Paste Results" content={response} />
             <Action title="Retry" onAction={retry} shortcut={{ modifiers: ["cmd"], key: "r" }} icon={Icon.Repeat} />
-            {showRetryWithGPT5 && (
+            {showRetryWithGPT61Sol && (
               <Action
-                title="Retry with GPT-5"
-                onAction={retryWithGPT5}
+                title="Retry with GPT-6.1 Sol"
+                onAction={retryWithGPT61Sol}
                 shortcut={{ modifiers: ["cmd", "shift"], key: "r" }}
                 icon={Icon.ArrowNe}
               />
@@ -179,13 +255,10 @@ export default function ResultView(prompt: string, model_override: string, toast
           <Detail.Metadata.Label title="Response Tokens" text={response_token_count.toString()} />
           <Detail.Metadata.Separator />
           <Detail.Metadata.Label title="Total Tokens" text={(prompt_token_count + response_token_count).toString()} />
-          <Detail.Metadata.Label
-            title="Total Cost"
-            text={estimatePrice(prompt_token_count, response_token_count, model).toString() + " cents"}
-          />
+          <Detail.Metadata.Label title="Estimated Cost" text={currentCostText} />
           <Detail.Metadata.Separator />
           <Detail.Metadata.Label title="Cumulative Tokens" text={cumulative_tokens.toString()} />
-          <Detail.Metadata.Label title="Cumulative Cost" text={cumulative_cost.toString() + " cents"} />
+          <Detail.Metadata.Label title="Estimated Cumulative Cost" text={cumulative_cost.toString() + " cents"} />
         </Detail.Metadata>
       }
     />

@@ -26,8 +26,13 @@ export function countToken(content: string) {
 }
 
 // Price per 1M tokens [input, output] in dollars
-// Source: https://openai.com/api/pricing/
+// Standard list prices checked 2026-09-30; displayed costs remain token-count estimates.
+// Sources: https://developers.openai.com/api/docs/changelog and https://platform.claude.com/docs/en/models/overview
 const MODEL_PRICING: Record<string, [number, number]> = {
+  "gpt-6-luna": [0.1, 0.5],
+  "gpt-6.1-sol": [2.0, 10.0],
+  "gpt-6-sol": [2.0, 10.0],
+  "gpt-6-astra": [10.0, 50.0],
   // GPT-5.x family (source: platform.openai.com/docs/pricing, Feb 2026)
   "gpt-5.2": [1.75, 14.0],
   "gpt-5.1": [1.25, 10.0],
@@ -38,7 +43,7 @@ const MODEL_PRICING: Record<string, [number, number]> = {
   // GPT-4.1 family
   "gpt-4.1": [2.0, 8.0],
   "gpt-4.1-mini": [0.4, 1.6],
-  "gpt-4.1-nano": [0.02, 0.15],
+  "gpt-4.1-nano": [0.1, 0.4],
   // GPT-4o family
   "gpt-4o": [2.5, 10.0],
   "gpt-4o-mini": [0.15, 0.6],
@@ -47,6 +52,9 @@ const MODEL_PRICING: Record<string, [number, number]> = {
   "gpt-4": [30.0, 60.0],
   "gpt-3.5-turbo": [0.5, 1.5],
   // Anthropic
+  "claude-fable-5-1": [10.0, 50.0],
+  "claude-opus-5-5": [4.0, 20.0],
+  "claude-sonnet-5-5": [2.0, 10.0],
   "claude-opus-4-6": [5.0, 25.0],
   "claude-sonnet-4-6": [3.0, 15.0],
   "claude-haiku-4-5": [1.0, 5.0],
